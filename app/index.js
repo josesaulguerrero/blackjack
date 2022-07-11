@@ -1,4 +1,3 @@
-import { Game } from "./src/models/Game.js";
+import { instance as game } from "./src/models/Game.js";
 
-const game = Game.getInstance();
 game.start();
