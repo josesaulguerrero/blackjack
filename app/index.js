@@ -1,3 +1,3 @@
-import { instance as game } from "./src/models/Game.js";
+const { instance: game } = require("./src/models/Game.js");
 
 game.start();

@@ -1,4 +1,4 @@
-export class Card {
+class Card {
 	#suit;
 	#name;
 	#value;
@@ -21,3 +21,5 @@ export class Card {
 		return this.#value;
 	}
 }
+
+module.exports = { Card };
