@@ -2,6 +2,8 @@ import inquirer from "inquirer";
 import { NumberUtils } from "../utils/NumberUtils.js";
 import { instance as deck } from "./Deck.js";
 import { Player } from "./Player.js";
+import { Suites } from "./Suites.js";
+import { Card } from "./Card.js";
 
 class Game {
 	#round;
@@ -17,14 +19,14 @@ class Game {
 	}
 
 	#dealCard() {
-		const randomCard = this.#deck.pickRandomCard();
+		const randomCard = new Card(Suites.CLUBS, "Jack", [1, 11], false);
 		this.#dealtCards.push(randomCard);
 		return randomCard;
 	}
 
 	#dealInitialCards() {
 		const initialCards = [this.#dealCard(), this.#dealCard()];
-		this.#dealtCards.concat(initialCards);
+		// this.#dealtCards.concat(initialCards);
 		console.log(
 			"Your initial cards are:",
 			initialCards.map((card) => card.toString())
@@ -39,12 +41,19 @@ class Game {
 		return NumberUtils.isBetweenRange(this.#player.score, 18, 21);
 	}
 
-	start() {
+	async start() {
 		this.#initAttributes();
 		this.#dealInitialCards();
+		if (this.#dealtCards.some((card) => card.isJack())) {
+			this.#dealtCards = await this.#dealtCards.map(async (card) => {
+				if (card.isJack()) {
+					return await Card.setJackValue();
+				}
+				return card;
+			});
+		}
 		this.#player.score = this.#sumDealtCards();
 		this.#player.printScore();
-		// validate jack [1, 11]
 		if (this.#checkVictory()) {
 			console.log("Flawless victory!");
 		}
