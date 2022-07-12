@@ -1,14 +1,28 @@
+import inquirer from "inquirer";
 import { instance as deck } from "./Deck.js";
 
 class Game {
 	#round;
+	#deck;
 
-	start() {
-		console.log(deck.cards);
+	start() {}
+
+	#initAttributes() {
+		this.#deck = deck;
+		this.#round = 1;
+	}
+
+	exit() {
+		console.log("Bye-bye~");
+		return 0;
 	}
 
 	get round() {
-		return this.round;
+		return this.#round;
+	}
+
+	get deck() {
+		return this.#deck;
 	}
 }
 
