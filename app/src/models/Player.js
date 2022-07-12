@@ -1,4 +1,4 @@
-class Player {
+export class Player {
 	#reward;
 	#score;
 
@@ -26,5 +26,3 @@ class Player {
 		this.#reward = value;
 	}
 }
-
-module.exports = { Player };

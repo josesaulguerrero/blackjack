@@ -1,4 +1,4 @@
-const { instance: deck } = require("./Deck.js");
+import { instance as deck } from "./Deck.js";
 
 class Game {
 	#round;
@@ -12,4 +12,4 @@ class Game {
 	}
 }
 
-module.exports = { instance: Object.freeze(new Game()) };
+export const instance = Object.freeze(new Game());

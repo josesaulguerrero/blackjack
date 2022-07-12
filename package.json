@@ -1,5 +1,6 @@
 {
 	"name": "blackjack",
+	"type": "module",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
@@ -11,5 +12,8 @@
 	"license": "ISC",
 	"devDependencies": {
 		"nodemon": "^2.0.19"
+	},
+	"dependencies": {
+		"inquirer": "^9.0.0"
 	}
 }

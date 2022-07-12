@@ -1,5 +1,5 @@
-const { Card } = require("./Card.js");
-const { Suites } = require("./Suites.js");
+import { Card } from "./Card.js";
+import { Suites } from "./Suites.js";
 
 class Deck {
 	static SUIT_LENGTH = 13;
@@ -51,4 +51,4 @@ class Deck {
 	}
 }
 
-module.exports = { instance: Object.freeze(new Deck()) };
+export const instance = Object.freeze(new Deck());
