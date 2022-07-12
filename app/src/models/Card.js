@@ -11,6 +11,10 @@ export class Card {
 		this.#isDrawn = isDrawn;
 	}
 
+	toString() {
+		return `${this.#name} of ${this.#suit.description}`;
+	}
+
 	get suit() {
 		return this.#suit;
 	}
@@ -22,7 +26,6 @@ export class Card {
 	get value() {
 		return this.#value;
 	}
-	k;
 
 	get isDrawn() {
 		return this.#isDrawn;

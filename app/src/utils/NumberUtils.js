@@ -12,7 +12,7 @@ export class NumberUtils {
 	}
 
 	static randomBetweenInclusiveRange(lowerLimit, upperLimit) {
-		possibleELements = upperLimit - lowerLimit + 1;
+		const possibleELements = upperLimit - lowerLimit + 1;
 		return Math.floor(Math.random() * possibleELements + lowerLimit);
 	}
 }

@@ -4,6 +4,10 @@ export class Player {
 
 	constructor() {}
 
+	printScore() {
+		console.log(`Your score is: ${this.#score}`);
+	}
+
 	get reward() {
 		return this.#reward;
 	}
@@ -23,6 +27,6 @@ export class Player {
 		if (Number.isNaN(value)) {
 			throw new Error("The value isn't a number.");
 		}
-		this.#reward = value;
+		this.#score = value;
 	}
 }

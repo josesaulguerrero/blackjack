@@ -1,3 +1,4 @@
+import { NumberUtils } from "../utils/NumberUtils.js";
 import { Card } from "./Card.js";
 import { Suites } from "./Suites.js";
 
@@ -17,7 +18,8 @@ class Deck {
 			return new Card(
 				suite,
 				cardName,
-				cardName === "Jack" ? [1, 11] : 10
+				cardName === "Jack" ? [1, 11] : 10,
+				false
 			);
 		});
 	}
@@ -25,7 +27,7 @@ class Deck {
 	#setUpNormalCards(suite) {
 		return Array.from(
 			{ length: 9 },
-			(_, index) => new Card(suite, String(index + 1), index + 1)
+			(_, index) => new Card(suite, String(index + 1), index + 1, false)
 		);
 	}
 
@@ -46,8 +48,21 @@ class Deck {
 			.concat(heartsSuite);
 	};
 
+	pickRandomCard() {
+		const activeCards = this.#cards.filter((card) => !card.isDrawn);
+		const randomIndex = NumberUtils.randomBetweenInclusiveRange(
+			0,
+			activeCards.length - 1
+		);
+		return activeCards[randomIndex];
+	}
+
 	get cards() {
 		return this.#cards;
+	}
+
+	set cards(newCards) {
+		this.#cards = newCards;
 	}
 }
 
