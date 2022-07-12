@@ -1,4 +1,5 @@
 import inquirer from "inquirer";
+import { ConsoleUtils } from "../utils/ConsoleUtils.js";
 
 export class Card {
 	#suite;
@@ -6,35 +7,47 @@ export class Card {
 	#value;
 	#isDrawn;
 
-	constructor(suit, name, value, isDrawn) {
-		this.#suite = suit;
+	constructor(suite, name, value, isDrawn) {
+		this.#suite = suite;
 		this.#name = name;
 		this.#value = value;
 		this.#isDrawn = isDrawn;
 	}
 
 	static setJackValue(card) {
-		inquirer
-			.prompt([
-				{
-					name: "jackValue",
-					choices: ["11", "1"],
-					type: "checkbox",
-					message:
-						"You've got a Jack! Do you want it to sum 1 or 11 points?",
-				},
-			])
-			.then(({ jackValue }) => {
-				return new Card(card.suit, card.name, jackValue, true);
-			});
+		return new Promise((resolve) => {
+			ConsoleUtils.readAndVerify(
+				"You've got a Jack! Do you want it to sum 1 or 11 points?",
+				(value) =>
+					resolve(
+						new Card(
+							card.suite,
+							card.name,
+							parseInt(value.trim()),
+							true
+						)
+					),
+				(text) => /^(1|11)$/i.test(text.trim)
+			);
+		});
+		// return inquirer.prompt(
+		// 	Array.from({ length: cards.length }).map(() => ({
+		// 		message:
+		// 			"You've got a Jack! Do you want it to sum 1 or 11 points?",
+		// 		name: "jackValue",
+		// 		type: "list",
+		// 		choices: ["1", "11"],
+		// 		default: "1",
+		// 	}))
+		// );
 	}
 
 	toString() {
 		return `${this.#name} of ${this.#suite.description}`;
 	}
 
-	isJack() {
-		return this.#name === "Jack";
+	isAce() {
+		return this.#name === "Ace";
 	}
 
 	get suite() {

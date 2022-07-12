@@ -18,7 +18,7 @@ class Deck {
 			return new Card(
 				suite,
 				cardName,
-				cardName === "Jack" ? [1, 11] : 10,
+				cardName === "Ace" ? 11 : 10,
 				false
 			);
 		});

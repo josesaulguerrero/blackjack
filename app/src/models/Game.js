@@ -1,9 +1,10 @@
-import inquirer from "inquirer";
 import { NumberUtils } from "../utils/NumberUtils.js";
 import { instance as deck } from "./Deck.js";
 import { Player } from "./Player.js";
 import { Suites } from "./Suites.js";
 import { Card } from "./Card.js";
+import inquirer from "inquirer";
+import { ConsoleUtils } from "../utils/ConsoleUtils.js";
 
 class Game {
 	#round;
@@ -19,14 +20,13 @@ class Game {
 	}
 
 	#dealCard() {
-		const randomCard = new Card(Suites.CLUBS, "Jack", [1, 11], false);
+		const randomCard = deck.pickRandomCard();
 		this.#dealtCards.push(randomCard);
 		return randomCard;
 	}
 
 	#dealInitialCards() {
 		const initialCards = [this.#dealCard(), this.#dealCard()];
-		// this.#dealtCards.concat(initialCards);
 		console.log(
 			"Your initial cards are:",
 			initialCards.map((card) => card.toString())
@@ -34,29 +34,46 @@ class Game {
 	}
 
 	#sumDealtCards() {
-		return this.#dealtCards.reduce((acc, card) => acc + card.value, 0);
+		return this.#dealtCards
+			.sort((a, b) => a - b)
+			.reduce((acc, card) => {
+				if (card.name === "Ace")
+					return acc + 11 > 21 ? acc + 1 : acc + 11;
+				return acc + card.value;
+			}, 0);
 	}
 
 	#checkVictory() {
 		return NumberUtils.isBetweenRange(this.#player.score, 18, 21);
 	}
 
-	async start() {
+	start() {
 		this.#initAttributes();
 		this.#dealInitialCards();
-		if (this.#dealtCards.some((card) => card.isJack())) {
-			this.#dealtCards = await this.#dealtCards.map(async (card) => {
-				if (card.isJack()) {
-					return await Card.setJackValue();
-				}
-				return card;
-			});
-		}
 		this.#player.score = this.#sumDealtCards();
 		this.#player.printScore();
 		if (this.#checkVictory()) {
-			console.log("Flawless victory!");
+			console.log("Flawless victory! Blackjack!");
 		}
+		this.#gameplay();
+	}
+
+	#stand() {
+		console.log("standing");
+	}
+
+	#hit() {
+		console.log("hitting");
+	}
+
+	#gameplay() {
+		ConsoleUtils.readAndVerify(
+			"Do you want to stand or hit? (STAND/HIT)",
+			(option) => {
+				option.toLowerCase() === "stand" ? this.#stand() : this.#hit();
+			},
+			(text) => /^(stand|hit)$/i.test(text.trim())
+		);
 		// stand or draw a card (loop)
 		// NumberUtils.betweenRange(18, 21, player.score) ? win() : checkIfGreaterThan21;
 		// won && playNextRound?

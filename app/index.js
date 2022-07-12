@@ -1,12 +1,12 @@
-//import { instance as game } from "./src/models/Game.js";
+import { instance as game } from "./src/models/Game.js";
 import { ConsoleUtils } from "./src/utils/ConsoleUtils.js";
 
 const handleInitialInput = (option) => {
-	console.log(option, "1");
+	/y(es)?/i.test(option.trim()) ? game.start() : game.exit();
 };
 
 ConsoleUtils.readAndVerify(
-	"Are you ready to play 🃏__Blackjack__🃏?! (Y/n)",
+	"Are you ready to play 🃏Blackjack🃏?! (Y/n)",
 	handleInitialInput,
-	(value) => /(y(es)?|n(o)?)/.test(value.toLowerCase())
+	(value) => /^(y(es)?|n(o)?)$/i.test(value.trim())
 );

@@ -22,8 +22,10 @@ export class ConsoleUtils {
 		ConsoleUtils.#setUpReadline();
 		ConsoleUtils.#readlineInstance.question(question, (value) => {
 			if (!!verifier(value)) {
-				reader(value);
-				return ConsoleUtils.#readlineInstance.close();
+				return (() => {
+					ConsoleUtils.#readlineInstance.close();
+					reader(value);
+				})();
 			}
 			ConsoleUtils.#readlineInstance.close();
 			return ConsoleUtils.readAndVerify(question, reader, verifier);
