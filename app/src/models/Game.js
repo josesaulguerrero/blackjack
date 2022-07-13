@@ -1,22 +1,22 @@
 import { NumberUtils } from "../utils/NumberUtils.js";
 import { instance as deck } from "./Deck.js";
 import { Player } from "./Player.js";
-import { Suites } from "./Suites.js";
-import { Card } from "./Card.js";
 import inquirer from "inquirer";
-import { ConsoleUtils } from "../utils/ConsoleUtils.js";
 
 class Game {
+	static BASE_REWARD = 1000;
 	#round;
 	#deck;
 	#player;
 	#dealtCards;
+	#gameState;
 
 	#initAttributes() {
 		this.#deck = deck;
-		this.#round = 1;
-		this.#player = new Player();
+		this.#round = 0;
+		this.#player = new Player(Game.BASE_REWARD);
 		this.#dealtCards = [];
+		this.#gameState = "playing";
 	}
 
 	#dealCard() {
@@ -36,37 +36,58 @@ class Game {
 
 	#sumDealtCards() {
 		return this.#dealtCards
-			.sort((a, b) => a - b)
+			.sort((a, b) => a - b) // leave the aces for the end
 			.reduce((acc, card) => {
 				if (card.name === "Ace")
 					return acc + 11 > 21 ? acc + 1 : acc + 11;
-				return acc + card.value;
+				return acc + parseInt(card.value);
 			}, 0);
 	}
 
-	#checkVictory() {
+	#isVictory() {
 		return NumberUtils.isBetweenRange(this.#player.score, 18, 21);
+	}
+
+	#isGameOver() {
+		return this.#player.score > 21;
+	}
+
+	#isStillPlaying() {
+		return !this.#isVictory() && !this.#isGameOver();
+	}
+
+	#resetAttributes() {
+		this.#deck.resetDeck();
+		this.#dealtCards = [];
+		this.#gameState = "playing";
+	}
+
+	async #handleNextRound() {
+		if (this.#round >= 3) {
+			return this.exit();
+		}
+		this.#round += 1;
+		console.log(`round: ${this.#round}`);
+		// reset attributes if round > 1
+		this.#round && this.#resetAttributes();
+		this.#dealInitialCards();
+		this.#player.score = this.#sumDealtCards();
+		this.#player.printScore();
+		if (this.#isVictory()) {
+			console.log("Flawless victory! Blackjack!");
+			return this.#handleNextRound();
+		}
+		await this.#gameplay();
 	}
 
 	async start() {
 		this.#initAttributes();
-		this.#dealInitialCards();
-		this.#player.score = this.#sumDealtCards();
-		this.#player.printScore();
-		if (this.#checkVictory()) {
-			console.log("Flawless victory! Blackjack!");
-			return this.exit();
-		}
-		this.#gameplay();
+		await this.#handleNextRound();
 	}
 
 	#stand() {
 		console.log("finishing game...");
 		this.#player.printScore();
-		if (this.#checkVictory()) {
-			console.log(`Your score is ${this.#player.score}, Blackjack!`);
-		}
-		console.log("Your score didn't reach the limit... You lost!");
 	}
 
 	#hit() {
@@ -75,8 +96,8 @@ class Game {
 		this.#player.printScore();
 	}
 
-	async #gameplay() {
-		const { choice } = await inquirer.prompt([
+	#getChoice() {
+		return inquirer.prompt([
 			{
 				message: "Do you want to stand or hit?",
 				type: "list",
@@ -84,28 +105,38 @@ class Game {
 				name: "choice",
 			},
 		]);
+	}
+
+	async #gameplay() {
+		const { choice } = await this.#getChoice();
 		const stood = choice.toLowerCase() === "stand";
 		stood ? this.#stand() : this.#hit();
-		if (!this.#checkVictory()) {
-			return stood && this.exit();
-			await this.#gameplay();
+
+		// stood or hit and lost - finish game
+		if (stood || this.#isGameOver()) {
+			this.#gameState = "finished";
+			console.log(
+				`Game over.... ${
+					stood
+						? "You didn't reach the minimum score..."
+						: "Your score was over 21..."
+				}`
+			);
+			return this.exit();
 		}
-		console.log("Blackjack!");
-		this.#player.printScore();
-		return this.exit();
-		// ConsoleUtils.readAndVerify(
-		// 	"Do you want to stand or hit? (STAND/HIT)",
-		// 	(option) => {
-		// 		option.toLowerCase() === "stand" ? this.#stand() : this.#hit();
-		// 		return this.#gameplay();
-		// 	},
-		// 	(text) => /^(stand|hit)$/i.test(text.trim())
-		// );
-		// stand or draw a card (loop)
-		// NumberUtils.betweenRange(18, 21, player.score) ? win|() : checkIfGreaterThan21;
-		// won && playNextRound?
-		// round ++
-		// round === 3 && finishGame()
+
+		// hit and won - finish game
+		if (!stood && this.#isVictory()) {
+			this.#gameState = "finished";
+			console.log("You won!!!");
+			this.#player.printReward();
+			return this.#handleNextRound();
+		}
+
+		// hit and is still playing - continue game
+		if (!stood && this.#isStillPlaying()) {
+			this.#gameplay();
+		}
 	}
 
 	exit() {

@@ -1,6 +1,3 @@
-import inquirer from "inquirer";
-import { ConsoleUtils } from "../utils/ConsoleUtils.js";
-
 export class Card {
 	#suite;
 	#name;
@@ -12,34 +9,6 @@ export class Card {
 		this.#name = name;
 		this.#value = value;
 		this.#isDrawn = isDrawn;
-	}
-
-	static setJackValue(card) {
-		return new Promise((resolve) => {
-			ConsoleUtils.readAndVerify(
-				"You've got a Jack! Do you want it to sum 1 or 11 points?",
-				(value) =>
-					resolve(
-						new Card(
-							card.suite,
-							card.name,
-							parseInt(value.trim()),
-							true
-						)
-					),
-				(text) => /^(1|11)$/i.test(text.trim)
-			);
-		});
-		// return inquirer.prompt(
-		// 	Array.from({ length: cards.length }).map(() => ({
-		// 		message:
-		// 			"You've got a Jack! Do you want it to sum 1 or 11 points?",
-		// 		name: "jackValue",
-		// 		type: "list",
-		// 		choices: ["1", "11"],
-		// 		default: "1",
-		// 	}))
-		// );
 	}
 
 	toString() {

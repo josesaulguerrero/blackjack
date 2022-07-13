@@ -18,17 +18,18 @@ class Deck {
 			return new Card(
 				suite,
 				cardName,
-				cardName === "Ace" ? 11 : 10,
+				cardName.toLowerCase() === "ace" ? 11 : 10,
 				false
 			);
 		});
 	}
 
 	#setUpNormalCards(suite) {
-		return Array.from(
-			{ length: 9 },
-			(_, index) => new Card(suite, String(index + 1), index + 1, false)
-		);
+		let i = 1;
+		return Array.from({ length: 9 }, () => {
+			i++;
+			return new Card(suite, String(i), i, false);
+		});
 	}
 
 	#setUpSuite(suite) {
@@ -55,6 +56,10 @@ class Deck {
 			activeCards.length - 1
 		);
 		return activeCards[randomIndex];
+	}
+
+	resetDeck() {
+		this.cards = this.#initializeCards();
 	}
 
 	get cards() {

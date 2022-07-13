@@ -2,10 +2,16 @@ export class Player {
 	#reward;
 	#score;
 
-	constructor() {}
+	constructor(initialReward) {
+		this.#reward = initialReward;
+	}
 
 	printScore() {
 		console.log(`Your score is: ${this.#score}`);
+	}
+
+	printReward() {
+		console.log(`Your reward is: ${this.#reward}`);
 	}
 
 	get reward() {
