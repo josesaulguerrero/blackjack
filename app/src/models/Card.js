@@ -11,10 +11,6 @@ export class Card {
 		this.#isDrawn = isDrawn;
 	}
 
-	toString() {
-		return `${this.#name} of ${this.#suite.description}`;
-	}
-
 	isAce() {
 		return this.#name === "Ace";
 	}

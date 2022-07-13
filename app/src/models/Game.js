@@ -1,22 +1,17 @@
 import { NumberUtils } from "../utils/NumberUtils.js";
 import { instance as deck } from "./Deck.js";
 import { Player } from "./Player.js";
-import inquirer from "inquirer";
 
 class Game {
-	static BASE_REWARD = 1000;
 	#round;
 	#deck;
 	#player;
 	#dealtCards;
-	#gameState;
 
 	#initAttributes() {
 		this.#deck = deck;
 		this.#round = 0;
-		this.#player = new Player(Game.BASE_REWARD);
 		this.#dealtCards = [];
-		this.#gameState = "playing";
 	}
 
 	#dealCard() {
@@ -26,13 +21,7 @@ class Game {
 		return randomCard;
 	}
 
-	#dealInitialCards() {
-		const initialCards = [this.#dealCard(), this.#dealCard()];
-		console.log(
-			"Your initial cards are:",
-			initialCards.map((card) => card.toString())
-		);
-	}
+	#dealInitialCards() {}
 
 	#sumDealtCards() {
 		return this.#dealtCards
@@ -44,105 +33,27 @@ class Game {
 			}, 0);
 	}
 
-	#isVictory() {
-		return NumberUtils.isBetweenRange(this.#player.score, 18, 21);
-	}
+	#isVictory() {}
 
-	#isGameOver() {
-		return this.#player.score > 21;
-	}
+	#isGameOver() {}
 
-	#isStillPlaying() {
-		return !this.#isVictory() && !this.#isGameOver();
-	}
+	#isStillPlaying() {}
 
-	#resetAttributes() {
-		this.#deck.resetDeck();
-		this.#dealtCards = [];
-		this.#gameState = "playing";
-	}
+	#resetAttributes() {}
 
-	async #handleNextRound() {
-		if (this.#round >= 3) {
-			return this.exit();
-		}
-		this.#round += 1;
-		console.log(`round: ${this.#round}`);
-		// reset attributes if round > 1
-		this.#round && this.#resetAttributes();
-		this.#dealInitialCards();
-		this.#player.score = this.#sumDealtCards();
-		this.#player.printScore();
-		if (this.#isVictory()) {
-			console.log("Flawless victory! Blackjack!");
-			return this.#handleNextRound();
-		}
-		await this.#gameplay();
-	}
+	#handleNextRound() {}
 
-	async start() {
-		this.#initAttributes();
-		await this.#handleNextRound();
-	}
+	start() {}
 
-	#stand() {
-		console.log("finishing game...");
-		this.#player.printScore();
-	}
+	#stand() {}
 
-	#hit() {
-		const card = this.#dealCard();
-		console.log(`Your dealt card is: ${card.toString()}`);
-		this.#player.printScore();
-	}
+	#hit() {}
 
-	#getChoice() {
-		return inquirer.prompt([
-			{
-				message: "Do you want to stand or hit?",
-				type: "list",
-				choices: ["Stand", "Hit"],
-				name: "choice",
-			},
-		]);
-	}
+	#getChoice() {}
 
-	async #gameplay() {
-		const { choice } = await this.#getChoice();
-		const stood = choice.toLowerCase() === "stand";
-		stood ? this.#stand() : this.#hit();
+	#gameplay() {}
 
-		// stood or hit and lost - finish game
-		if (stood || this.#isGameOver()) {
-			this.#gameState = "finished";
-			console.log(
-				`Game over.... ${
-					stood
-						? "You didn't reach the minimum score..."
-						: "Your score was over 21..."
-				}`
-			);
-			return this.exit();
-		}
-
-		// hit and won - finish game
-		if (!stood && this.#isVictory()) {
-			this.#gameState = "finished";
-			console.log("You won!!!");
-			this.#player.printReward();
-			return this.#handleNextRound();
-		}
-
-		// hit and is still playing - continue game
-		if (!stood && this.#isStillPlaying()) {
-			this.#gameplay();
-		}
-	}
-
-	exit() {
-		console.log("Bye-bye~");
-		return 0;
-	}
+	exit() {}
 }
 
 export const instance = Object.freeze(new Game());
