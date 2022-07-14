@@ -4,6 +4,9 @@ const handleStartGame = (option) => {
 	option ? game.start() : game.exit();
 };
 
-const main = () => {};
+const main = () => {
+	// render initial view
+	// start game
+};
 
 main();
