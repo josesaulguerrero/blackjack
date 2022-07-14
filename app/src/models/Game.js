@@ -2,6 +2,7 @@
 
 import { Dealer } from "./Dealer.js";
 import { Deck } from "./Deck.js";
+import { UI } from "./UI.js";
 import { User } from "./User.js";
 
 export class Game {
@@ -21,25 +22,25 @@ export class Game {
 	#dealer;
 
 	/**
+	 * @type {UI}
+	 */
+	#ui;
+
+	/**
+	 * @type {"NOT_STARTED" | "PLAYING"}
+	 */
+	#gameState = "NOT_STARTED";
+
+	/**
 	 * @return {void}
 	 */
 	#initAttributes() {
 		this.#deck = new Deck();
 		this.#user = new User();
 		this.#dealer = new Dealer();
-		this.#dealer.hit();
+		this.#ui = new UI();
+		this.#gameState = "PLAYING";
 	}
-
-	// #isVictory() {}
-
-	// #isGameOver() {}
-
-	// #isStillPlaying() {}
-
-	/**
-	 * @return {void}
-	 */
-	#resetAttributes() {}
 
 	/**
 	 * @description Starts a new game.
@@ -47,6 +48,7 @@ export class Game {
 	 */
 	start() {
 		this.#initAttributes();
+		this.#ui.renderInitialView(console.log);
 	}
 
 	/**
@@ -54,5 +56,13 @@ export class Game {
 	 */
 	#gameplay() {}
 
-	// exit() {}
+	/**
+	 * @return {void}
+	 */
+	#finish() {
+		this.#deck.resetDeck();
+		this.#user.resetAttributes();
+		this.#dealer.resetAttributes();
+		this.#gameState = "NOT_STARTED";
+	}
 }

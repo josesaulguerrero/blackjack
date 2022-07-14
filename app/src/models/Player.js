@@ -84,10 +84,19 @@ export class Player {
 
 	/**
 	 * @description Takes the different cards dealt to the player and sums their values up.
-	 * @returns {number} The total from summing up the cards dealt to the player.
+	 * @return {number} The total from summing up the cards dealt to the player.
 	 */
 	#sumDealtCards() {
 		return this.#dealtCards.reduce((acc, card) => card.value + acc, 0);
+	}
+
+	/**
+	 * @description Resets the different attributes in this class
+	 * @return {void}
+	 */
+	resetAttributes() {
+		this.#score = 0;
+		this.#dealtCards = [];
 	}
 
 	/**

@@ -5,11 +5,6 @@ import { UI } from "./src/models/UI.js";
 
 const main = () => {
 	const game = new Game();
-	const ui = new UI();
-	// render initial view
-	ui.renderInitialView();
-	//ui.renderGameView();
-	// start game
 	game.start();
 };
 

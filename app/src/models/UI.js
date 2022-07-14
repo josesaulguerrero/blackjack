@@ -18,7 +18,21 @@ export class UI {
 		return `<h1 class="title">🃏Sofkian Blackjack🃏</h1>`;
 	}
 
-	renderInitialView() {
+	/**
+	 * @param {string} selector
+	 * @param {string} event
+	 * @param {EventListenerOrEventListenerObject} callback
+	 */
+	#addEventListener(selector, event, callback) {
+		this.#rootElement
+			.querySelector(selector)
+			?.addEventListener(event, callback);
+	}
+
+	/**
+	 * @param {EventListenerOrEventListenerObject} onStart The function to execute once the start button is clicked.
+	 */
+	renderInitialView(onStart) {
 		this.#rootElement.innerHTML = `
 			${this.#getTitleHTML()}
 			<img
@@ -27,11 +41,16 @@ export class UI {
 				width="250px"
 				height="250px"
 			/>
-			<button class="startGame-button">Start new game!</button>
+			<button class="startGame-button" id="startGame-button">Start new game!</button>
 		`;
+		this.#addEventListener("#startGame-button", "click", onStart);
 	}
 
-	renderGameView() {
+	/**
+	 * @param {EventListenerOrEventListenerObject} onHit The function to execute once the player decides to hit.
+	 * @param {EventListenerOrEventListenerObject} onStand The function to execute once the player decides to stand.
+	 */
+	renderGameView(onHit, onStand) {
 		this.#rootElement.innerHTML = `
 			${this.#getTitleHTML()}
 			<section class="gameView">
@@ -55,10 +74,12 @@ export class UI {
 				</section>
 			</section>
 			<section class="buttons">
-				<button class="hit-button">Hit!</button>
-				<button class="stand-button">Stand...</button>
+				<button class="hit-button" id="hit-button">Hit!</button>
+				<button class="stand-button" id="stand-button">Stand...</button>
 			</section>
 			</section>
 		`;
+		this.#addEventListener("#hit-button", "click", onHit);
+		this.#addEventListener("#stand-button", "click", onStand);
 	}
 }
