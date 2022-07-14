@@ -1,9 +1,42 @@
+// @ts-check
+
+import { Card } from "./Card.js";
+
+/**
+ * @class Player
+ * @abstract
+ */
 export class Player {
+	/**
+	 * @type {number} The total from summing up all the cards dealt to the player.
+	 */
 	#score;
+
+	/**
+	 * @type {Card[]} The cards that have been dealt to the player.
+	 */
 	#dealtCards;
 
 	constructor() {
-		this.#dealtCards = [];
+		if (this.constructor == Player) {
+			throw new Error("Abstract classes can't be instantiated.");
+		}
+	}
+
+	/**
+	 * @abstract
+	 * @return {void}
+	 */
+	stand() {
+		throw new Error("Abstract method!");
+	}
+
+	/**
+	 * @abstract
+	 * @return {void}
+	 */
+	hit() {
+		throw new Error("Abstract method!");
 	}
 
 	/**
@@ -13,10 +46,9 @@ export class Player {
 		return this.#score > 21;
 	}
 
-	stand() {}
-
-	hit() {}
-
+	/**
+	 * @return {void}
+	 */
 	updateScore() {
 		this.#score = this.#sumDealtCards();
 	}
@@ -40,15 +72,5 @@ export class Player {
 	 */
 	get dealtCards() {
 		return this.#dealtCards;
-	}
-
-	/**
-	 * @param {number} newValue The value you want to assign to the player score.
-	 */
-	set score(value) {
-		if (Number.isNaN(value)) {
-			throw new Error("The value isn't a number.");
-		}
-		this.#score = value;
 	}
 }
