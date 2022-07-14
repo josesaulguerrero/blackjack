@@ -102,7 +102,7 @@ export class Deck {
 	 * @return {void}
 	 */
 	resetDeck() {
-		this.cards = this.#initializeCards();
+		this.#cards = this.#initializeCards();
 	}
 
 	/**

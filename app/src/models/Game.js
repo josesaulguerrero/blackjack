@@ -27,19 +27,41 @@ export class Game {
 	#ui;
 
 	/**
-	 * @type {"NOT_STARTED" | "PLAYING"}
+	 * @type {"NOT_STARTED" | "PLAYING" | "FINISHED"}
 	 */
-	#gameState = "NOT_STARTED";
+	#gameState;
 
-	/**
-	 * @return {void}
-	 */
-	#initAttributes() {
+	#setUpInitialAttributes() {
 		this.#deck = new Deck();
 		this.#user = new User();
 		this.#dealer = new Dealer();
 		this.#ui = new UI();
-		this.#gameState = "PLAYING";
+		this.gameState = "NOT_STARTED";
+	}
+
+	/**
+	 * @description Handles the different game states.
+	 */
+	#handleGameState() {
+		debugger;
+		switch (this.#gameState) {
+			case "NOT_STARTED":
+				return this.#ui.renderInitialView(() => {
+					this.gameState = "PLAYING";
+					this.#gameplay();
+				});
+			case "PLAYING":
+				return this.#ui.renderGameView(
+					() => {},
+					() => {
+						this.#end();
+					}
+				);
+			case "FINISHED":
+				return this.#ui.renderFinalView(() => {
+					this.gameState = "NOT_STARTED";
+				});
+		}
 	}
 
 	/**
@@ -47,8 +69,7 @@ export class Game {
 	 * @return {void}
 	 */
 	start() {
-		this.#initAttributes();
-		this.#ui.renderInitialView(console.log);
+		this.#setUpInitialAttributes();
 	}
 
 	/**
@@ -59,10 +80,19 @@ export class Game {
 	/**
 	 * @return {void}
 	 */
-	#finish() {
+	#end() {
 		this.#deck.resetDeck();
 		this.#user.resetAttributes();
 		this.#dealer.resetAttributes();
-		this.#gameState = "NOT_STARTED";
+		this.gameState = "FINISHED";
+	}
+
+	/**
+	 * @param {"NOT_STARTED" | "PLAYING" | "FINISHED" } value The new value to assigN.
+	 */
+	set gameState(value) {
+		this.#gameState = value;
+		console.log(this.#gameState);
+		this.#handleGameState();
 	}
 }

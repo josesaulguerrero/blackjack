@@ -35,13 +35,15 @@ export class UI {
 	renderInitialView(onStart) {
 		this.#rootElement.innerHTML = `
 			${this.#getTitleHTML()}
-			<img
-				class="main-image"
-				src="https://github.com/josesaulguerrero/blackjack/blob/c796e013f14288aeb0e19464610302e52d0246d7/app/public/assets/favicon.png?raw=true"
-				width="250px"
-				height="250px"
-			/>
-			<button class="startGame-button" id="startGame-button">Start new game!</button>
+			<section class="initial-view">
+				<img
+					class="main-image"
+					src="https://github.com/josesaulguerrero/blackjack/blob/c796e013f14288aeb0e19464610302e52d0246d7/app/public/assets/favicon.png?raw=true"
+					width="250px"
+					height="250px"
+				/>
+				<button class="startGame-button" id="startGame-button">Start new game!</button>
+			</section>
 		`;
 		this.#addEventListener("#startGame-button", "click", onStart);
 	}
@@ -73,7 +75,7 @@ export class UI {
 					<span class="score">21</span>
 				</section>
 			</section>
-			<section class="buttons">
+			<section class="buttons" id="buttons" >
 				<button class="hit-button" id="hit-button">Hit!</button>
 				<button class="stand-button" id="stand-button">Stand...</button>
 			</section>
@@ -81,5 +83,16 @@ export class UI {
 		`;
 		this.#addEventListener("#hit-button", "click", onHit);
 		this.#addEventListener("#stand-button", "click", onStand);
+	}
+
+	/**
+	 *
+	 * @param {EventListenerOrEventListenerObject} onGoBackToStart The function to execute once the game is finished and the player wants to go back to the start.
+	 */
+	renderFinalView(onGoBackToStart) {
+		this.#rootElement.querySelector("#buttons").innerHTML = `
+			<button class="goBackToStart-button" id="goBackToStart">Go back to start</button>
+		`;
+		this.#addEventListener("#goBackToStart", "click", onGoBackToStart);
 	}
 }
