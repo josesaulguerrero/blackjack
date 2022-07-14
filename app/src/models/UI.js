@@ -80,6 +80,8 @@ export class UI {
 		this.#addEventListener("#stand-button", "click", onStand);
 	}
 
+	renderModal() {}
+
 	/**
 	 * @param {"player" | "dealer"} table The table in which you want to render the cards.
 	 * @param {Card[]} cards The cards necessary to calculate the score.
