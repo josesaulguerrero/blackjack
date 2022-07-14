@@ -32,9 +32,7 @@ export class UI {
 	 * @param {EventListenerOrEventListenerObject} callback
 	 */
 	#addEventListener(selector, event, callback) {
-		this.#rootElement
-			.querySelector(selector)
-			?.addEventListener(event, callback);
+		document.querySelector(selector)?.addEventListener(event, callback);
 	}
 
 	/**
@@ -91,6 +89,34 @@ export class UI {
 	 */
 	#renderModalContent(content) {
 		this.#modalElement.innerHTML = content;
+	}
+
+	/**
+	 * Renders a modal for the user to choose the value for an Ace; it passes the value through the onDone callback.
+	 * @param {(value: number) => void} onDone The callback that will receive the value chose by the user.
+	 */
+	renderGetAceValueModal(onDone) {
+		const modalContent = `
+			<section class="getAce-container">
+				<h3 class="title">You've got an Ace! pick a value for it.</h3>
+				<p class="description"> >Aces can sum 1 or 11 points. It's up to the player to choose their value</p>
+				<form class="getAce-form">
+					<label class="label" htmlFor="ace-value">Pick the value for your Ace: </label>
+					<input class="choice" type="radio" name="ace-value" value="1">One</input>
+					<input class="choice" type="radio" name="ace-value" checked value="11">Eleven</input>
+					<input class="submit" id="submit" type="submit" value="Done" />
+				</form>
+			</section>
+		`;
+		this.#renderModalContent(modalContent);
+		this.#addEventListener("#submit", "click", (event) => {
+			event.preventDefault();
+			const radioNodes = [
+				...this.#modalElement.querySelectorAll(".choice[type='radio']"),
+			];
+			const selectedValue = radioNodes.find((node) => node.checked).value;
+			onDone(parseInt(selectedValue));
+		});
 	}
 
 	/**

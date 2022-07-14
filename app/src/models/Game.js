@@ -67,6 +67,7 @@ export class Game {
 	 */
 	start() {
 		this.#setUpInitialAttributes();
+		this.#ui.renderGetAceValueModal(console.log);
 	}
 
 	/**
