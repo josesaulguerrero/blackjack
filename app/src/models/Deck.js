@@ -1,6 +1,6 @@
 import { NumberUtils } from "../utils/NumberUtils.js";
 import { Card } from "./Card.js";
-import { Suite } from "./Suites.js";
+import { Suite } from "./Suite.js";
 
 export class Deck {
 	static SUIT_LENGTH = 13;
