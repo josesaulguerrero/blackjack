@@ -18,12 +18,26 @@ export class Player {
 	 */
 	#dealtCards;
 
+	/**
+	 * @type {boolean} A boolean indicating whether the value has decided to stand.
+	 */
+	#hasStood;
+
 	constructor() {
 		if (new.target === Player) {
 			throw new Error("Abstract classes can't be instantiated.");
 		}
 		this.#score = 0;
 		this.#dealtCards = [];
+		this.#hasStood = false;
+	}
+
+	/**
+	 * @param {Player} subclass
+	 * @return {boolean}
+	 */
+	static #isDirectSubclass(subclass) {
+		return subclass.constructor.prototype instanceof Player;
 	}
 
 	/**
@@ -61,6 +75,14 @@ export class Player {
 	}
 
 	/**
+	 * Adds a new card to the dealtCards property.
+	 * @param {Card} card The card you want to add.
+	 */
+	pushDealtCard(card) {
+		this.#dealtCards.push(card);
+	}
+
+	/**
 	 * @description Takes the different cards dealt to the player and sums their values up.
 	 * @returns {number} The total from summing up the cards dealt to the player.
 	 */
@@ -82,5 +104,23 @@ export class Player {
 	 */
 	get dealtCards() {
 		return this.#dealtCards;
+	}
+
+	/**
+	 * @description A getter that returns the a boolean value indicating whether the player has decided to stand.
+	 * @return {boolean}
+	 */
+	get hasStood() {
+		return this.#hasStood;
+	}
+
+	/**
+	 * @description Sets a new value to the property.
+	 * @param {boolean} value The new value you want to assign.
+	 */
+	set hasStood(value) {
+		if (Player.#isDirectSubclass(this)) {
+			this.#hasStood = value;
+		}
 	}
 }

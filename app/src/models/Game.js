@@ -7,20 +7,23 @@ import { User } from "./User.js";
 
 export class Game {
 	/**
-	 *@type {Deck} The current deck that is being dealt.
+	 *@type {Deck}
 	 */
 	#deck;
 
 	/**
-	 * @type {User} The user that is currently playing.
+	 * @type {User}
 	 */
 	#user;
 
 	/**
-	 * @type {Dealer} The internal mechanism instance that plays against the User.
+	 * @type {Dealer}
 	 */
 	#dealer;
 
+	/**
+	 * @return {void}
+	 */
 	#initAttributes() {
 		this.#deck = new Deck();
 		this.#user = new User();
@@ -28,19 +31,29 @@ export class Game {
 		this.#dealer.hit();
 	}
 
-	#isVictory() {}
+	// #isVictory() {}
 
-	#isGameOver() {}
+	// #isGameOver() {}
 
-	#isStillPlaying() {}
+	// #isStillPlaying() {}
 
+	/**
+	 * @return {void}
+	 */
 	#resetAttributes() {}
 
+	/**
+	 * @description Starts a new game.
+	 * @return {void}
+	 */
 	start() {
 		this.#initAttributes();
 	}
 
+	/**
+	 * @return {void}
+	 */
 	#gameplay() {}
 
-	exit() {}
+	// exit() {}
 }
