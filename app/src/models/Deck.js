@@ -2,10 +2,13 @@ import { NumberUtils } from "../utils/NumberUtils.js";
 import { Card } from "./Card.js";
 import { Suite } from "./Suites.js";
 
-class Deck {
+export class Deck {
 	static SUIT_LENGTH = 13;
 	static DECK_LENGTH = Deck.SUIT_LENGTH * 4;
 	// ---------
+	/**
+	 * @type {Card[]} The fifty-two-card deck of cards that is being used.
+	 */
 	#cards;
 
 	/**
@@ -100,5 +103,3 @@ class Deck {
 		return this.#cards;
 	}
 }
-
-export const instance = Object.freeze(new Deck());
