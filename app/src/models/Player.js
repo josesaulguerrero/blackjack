@@ -3,6 +3,10 @@ export class Player {
 
 	constructor() {}
 
+	stand() {}
+
+	hit() {}
+
 	get score() {
 		return this.#score;
 	}

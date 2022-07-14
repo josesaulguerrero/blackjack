@@ -5,31 +5,37 @@ import { Suites } from "./Suites.js";
 class Deck {
 	static SUIT_LENGTH = 13;
 	static DECK_LENGTH = Deck.SUIT_LENGTH * 4;
+	// ---------
 	#cards;
+	#dealtCards;
 
 	constructor() {
 		this.#cards = this.#initializeCards();
+		this.#dealtCards = [];
+	}
+
+	#getAceValue() {
+		// get value
 	}
 
 	#setUpSpecialCards(suite) {
 		const SPECIAL_CARDS = ["Ace", "King", "Queen", "Jack"];
-		return Array.from({ length: 4 }, (_, index) => {
-			const cardName = SPECIAL_CARDS[index];
+		return Array.from({ length: 4 }, (_, i) => {
+			const cardName = SPECIAL_CARDS[i];
 			return new Card(
 				suite,
 				cardName,
-				cardName.toLowerCase() === "ace" ? 11 : 10,
+				cardName.toLowerCase() === "ace" ? this.#getAceValue() : 10,
 				false
 			);
 		});
 	}
 
 	#setUpNormalCards(suite) {
-		let i = 1;
-		return Array.from({ length: 9 }, () => {
-			i++;
-			return new Card(suite, String(i), i, false);
-		});
+		return Array.from(
+			{ length: 9 },
+			(_, i) => new Card(suite, String(i), i, false)
+		);
 	}
 
 	#setUpSuite(suite) {
@@ -49,7 +55,7 @@ class Deck {
 			.concat(heartsSuite);
 	};
 
-	pickRandomCard() {
+	#pickRandomCard() {
 		const activeCards = this.#cards.filter((card) => !card.isDrawn);
 		const randomIndex = NumberUtils.randomBetweenInclusiveRange(
 			0,
@@ -57,6 +63,8 @@ class Deck {
 		);
 		return activeCards[randomIndex];
 	}
+
+	dealCard() {}
 
 	resetDeck() {
 		this.cards = this.#initializeCards();
@@ -66,8 +74,8 @@ class Deck {
 		return this.#cards;
 	}
 
-	set cards(newCards) {
-		this.#cards = newCards;
+	get dealtCards() {
+		return this.#dealtCards;
 	}
 }
 
