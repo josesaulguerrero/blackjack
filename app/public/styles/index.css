@@ -53,6 +53,8 @@ body {
 	color: var(--main-font-color);
 }
 
+/* ---- modal styles ----- start ---- */
+
 .modal {
 	position: absolute;
 	width: 100%;
@@ -76,14 +78,52 @@ body {
 	transform: scale(1);
 }
 
-.modal .getAce-container {
+.getAce-container {
 	width: 100%;
 	max-width: 350px;
 	height: 100%;
-	max-height: 250px;
+	max-height: 280px;
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
 	background-color: var(--white);
 	border-radius: 10px;
 }
+
+.getAce-container .title {
+	font-size: 1.8rem;
+	text-align: center;
+}
+
+.getAce-container .description {
+	margin: 10px 0;
+	font-size: 1.4rem;
+	text-align: center;
+}
+
+.getAce-form {
+	width: 100%;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	gap: 5px;
+	padding: 10px 0;
+}
+
+.getAce-form .label,
+.getAce-form .choice {
+	display: block;
+}
+
+.choice {
+	width: 100%;
+	padding: 0 0 0 10px;
+	font-size: 1.4rem;
+}
+
+/* ---- modal styles ----- end ---- */
 
 /* ---- initial view styles ----- start ---- */
 
@@ -173,9 +213,10 @@ body {
 .startGame-button,
 .hit-button,
 .stand-button,
-.goBackToStart-button {
+.goBackToStart-button,
+.submit-button {
 	width: 100%;
-	padding: 15px 10px;
+	padding: 15px;
 	border: none;
 	outline: none;
 	font-weight: bold;

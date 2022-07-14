@@ -89,6 +89,14 @@ export class UI {
 	 */
 	#renderModalContent(content) {
 		this.#modalElement.innerHTML = content;
+		this.#modalElement.classList.add("visible");
+		this.#modalElement.classList.remove("hidden");
+	}
+
+	#hideModalContent() {
+		this.#modalElement.innerHTML = "";
+		this.#modalElement.classList.remove("visible");
+		this.#modalElement.classList.add("hidden");
 	}
 
 	/**
@@ -99,12 +107,18 @@ export class UI {
 		const modalContent = `
 			<section class="getAce-container">
 				<h3 class="title">You've got an Ace! pick a value for it.</h3>
-				<p class="description"> >Aces can sum 1 or 11 points. It's up to the player to choose their value</p>
+				<p class="description">Aces can sum 1 or 11 points. It's up to the player to choose their value</p>
+				<p class="label" >Pick the value for your Ace: </p>
 				<form class="getAce-form">
-					<label class="label" htmlFor="ace-value">Pick the value for your Ace: </label>
-					<input class="choice" type="radio" name="ace-value" value="1">One</input>
-					<input class="choice" type="radio" name="ace-value" checked value="11">Eleven</input>
-					<input class="submit" id="submit" type="submit" value="Done" />
+					<label class="choice" htmlFor="one">
+						<input class="radio" type="radio" id="one" name="ace-value" value="1" />
+						One
+					</label>
+					<label htmlFor="eleven" class="choice">
+						<input class="radio" type="radio" id="eleven" name="ace-value" value="11" checked />
+						Eleven
+					</label>
+					<input class="submit-button" id="submit" type="submit" value="Done" />
 				</form>
 			</section>
 		`;
@@ -112,10 +126,11 @@ export class UI {
 		this.#addEventListener("#submit", "click", (event) => {
 			event.preventDefault();
 			const radioNodes = [
-				...this.#modalElement.querySelectorAll(".choice[type='radio']"),
+				...this.#modalElement.querySelectorAll(".radio[type='radio']"),
 			];
 			const selectedValue = radioNodes.find((node) => node.checked).value;
 			onDone(parseInt(selectedValue));
+			this.#hideModalContent();
 		});
 	}
 
