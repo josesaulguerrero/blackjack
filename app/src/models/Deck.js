@@ -18,12 +18,9 @@ class Deck {
 	/**
 	 * @return {number} The value chosen by the player for the Ace.
 	 */
-	#getAceValue() {
-		// get value
-	}
+	#getAceValue() {}
 
 	/**
-	 *
 	 * @param {Suite} suite The suite you want to set up.
 	 * @returns {Card[]} An array of **four** positions with the special cards for the given Suite.
 	 */
@@ -41,7 +38,6 @@ class Deck {
 	}
 
 	/**
-	 *
 	 * @param {Suite} suite The suite you want to set up.
 	 * @returns {Card[]} An array of **nine** positions with the special cards for the given Suite.
 	 */
@@ -53,7 +49,6 @@ class Deck {
 	}
 
 	/**
-	 *
 	 * @param {Suite} suite The suite you want to set up.
 	 * @returns {Card[]} An array of **thirteen** positions containing all the cards for the given Suite.
 	 */
