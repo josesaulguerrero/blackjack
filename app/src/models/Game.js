@@ -4,7 +4,8 @@ import { NumberUtils } from "../utils/NumberUtils.js";
 import { Dealer } from "./Dealer.js";
 import { Deck } from "./Deck.js";
 import { User } from "./User.js";
-class Game {
+
+export class Game {
 	/**
 	 *@type {Deck} The current deck that is being dealt.
 	 */
@@ -24,6 +25,7 @@ class Game {
 		this.#deck = new Deck();
 		this.#user = new User();
 		this.#dealer = new Dealer();
+		this.#dealer.hit();
 	}
 
 	#isVictory() {}
@@ -34,11 +36,11 @@ class Game {
 
 	#resetAttributes() {}
 
-	start() {}
+	start() {
+		this.#initAttributes();
+	}
 
 	#gameplay() {}
 
 	exit() {}
 }
-
-export const instance = Object.freeze(new Game());

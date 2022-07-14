@@ -3,6 +3,7 @@
 import { Card } from "./Card.js";
 
 /**
+ * @classdesc Abstract class containing the common methods and attributes for both, the User and the Dealer.
  * @class Player
  * @abstract
  */
@@ -18,12 +19,15 @@ export class Player {
 	#dealtCards;
 
 	constructor() {
-		if (this.constructor == Player) {
+		if (new.target === Player) {
 			throw new Error("Abstract classes can't be instantiated.");
 		}
+		this.#score = 0;
+		this.#dealtCards = [];
 	}
 
 	/**
+	 * @description The method executed once the Player has decided to stand with their current deck.
 	 * @abstract
 	 * @return {void}
 	 */
@@ -32,6 +36,7 @@ export class Player {
 	}
 
 	/**
+	 * @description The method executed once the Player has decided to draw one more card.
 	 * @abstract
 	 * @return {void}
 	 */
@@ -40,6 +45,7 @@ export class Player {
 	}
 
 	/**
+	 * @description Tells whether the player has busted or not.
 	 * @return {boolean} A boolean indicating whether the player score is over 21.
 	 */
 	hasBusted() {
@@ -47,6 +53,7 @@ export class Player {
 	}
 
 	/**
+	 * @description Sums the values of the cards dealt to this player (until now) and updates their score.
 	 * @return {void}
 	 */
 	updateScore() {
@@ -54,6 +61,7 @@ export class Player {
 	}
 
 	/**
+	 * @description Takes the different cards dealt to the player and sums their values up.
 	 * @returns {number} The total from summing up the cards dealt to the player.
 	 */
 	#sumDealtCards() {
@@ -61,6 +69,7 @@ export class Player {
 	}
 
 	/**
+	 * @description A getter that returns the current score for this player.
 	 * @return {number} The current score of this player.
 	 */
 	get score() {
@@ -68,6 +77,7 @@ export class Player {
 	}
 
 	/**
+	 * @description A getter that returns the cards that have been dealt to this player until now.
 	 * @return {Card[]} The cards that have been dealt to this player.
 	 */
 	get dealtCards() {
