@@ -2,7 +2,7 @@ export class Suite {
 	#name;
 
 	/**
-	 * @param {"Spades" | "Clubs" | "Hearts" | "Diamonds"} name The name of the suite
+	 * @param {"Spades ♠️" | "Clubs ♣️" | "Hearts ♥️" | "Diamonds ♦️"} name The name of the suite
 	 * @return {Suite} The instance that was just created
 	 */
 	constructor(name) {
