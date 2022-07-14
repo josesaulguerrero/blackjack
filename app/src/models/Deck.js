@@ -19,7 +19,8 @@ export class Deck {
 	}
 
 	/**
-	 * @return {number} The value chosen by the player for the Ace.
+	 * @description Displays a modal on screen every time the player gets an Ace.
+	 * @return {number} The value  for the Ace chosen by the player.
 	 */
 	#getAceValue() {}
 
@@ -52,6 +53,7 @@ export class Deck {
 	}
 
 	/**
+	 * @description Creates a set of cards for the given Suite.
 	 * @param {Suite} suite The suite you want to set up.
 	 * @returns {Card[]} An array of **thirteen** positions containing all the cards for the given Suite.
 	 */
@@ -62,6 +64,7 @@ export class Deck {
 	}
 
 	/**
+	 * @description Creates the fifty-two-card deck that is used to play.
 	 * @returns {Card[]} An array containing the **fifty two** cards in an English Deck.
 	 */
 	#initializeCards = () => {
@@ -76,6 +79,7 @@ export class Deck {
 	};
 
 	/**
+	 * @description Picks a random card that hasn't been drawn yet.
 	 * @returns {Card} A random card from the deck (one that hasn't been drawn yet).
 	 */
 	#pickRandomCard() {
@@ -88,15 +92,21 @@ export class Deck {
 	}
 
 	/**
+	 * @description Deals one available card.
 	 * @return {Card} A non-drawn card from the deck.
 	 */
 	dealCard() {}
 
+	/**
+	 * @description Resets the attributes of the class when needed.
+	 * @return {void}
+	 */
 	resetDeck() {
 		this.cards = this.#initializeCards();
 	}
 
 	/**
+	 * @description A getter that returns the cards from the deck.
 	 * @return {Card[]} All the cards from the deck.
 	 */
 	get cards() {
