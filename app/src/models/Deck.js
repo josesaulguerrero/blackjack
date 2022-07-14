@@ -47,7 +47,7 @@ export class Deck {
 	#setUpNormalCards(suite) {
 		return Array.from(
 			{ length: 9 },
-			(_, i) => new Card(suite, String(i), i, false)
+			(_, i) => new Card(suite, String(i + 1), i + 1, false) // i starts at zero
 		);
 	}
 
