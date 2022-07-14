@@ -12,8 +12,14 @@ export class UI {
 	 */
 	#rootElement;
 
+	/**
+	 * @type {HTMLElement}
+	 */
+	#modalElement;
+
 	constructor() {
 		this.#rootElement = document.querySelector("#root");
+		this.#modalElement = document.querySelector("#modal");
 	}
 
 	#getTitleHTML() {
@@ -80,7 +86,12 @@ export class UI {
 		this.#addEventListener("#stand-button", "click", onStand);
 	}
 
-	renderModal() {}
+	/**
+	 * @param {string} content A stringified piece of HTML that will be rendered within the modal element;
+	 */
+	#renderModalContent(content) {
+		this.#modalElement.innerHTML = content;
+	}
 
 	/**
 	 * @param {"player" | "dealer"} table The table in which you want to render the cards.

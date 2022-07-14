@@ -6,6 +6,7 @@ html {
 	--main-font-color: rgb(1, 1, 41);
 	--main-font-family: "Montserrat Alternates", Arial, sans-serif;
 	--main-button-color: rgb(193, 129, 243);
+	--white: rgba(255, 255, 255, 0.896);
 	--stats-color: #bbd0ff;
 	--body-color: rgb(120, 181, 234);
 	--shadow-color: rgba(0, 0, 0, 0.35);
@@ -41,7 +42,7 @@ body {
 	align-items: center;
 	justify-content: flex-start;
 	padding: 60px 0;
-	background-color: rgba(255, 255, 255, 0.79);
+	background-color: var(--white);
 	border-radius: 10px;
 	box-shadow: 4px 4px 40px var(--shadow-color);
 }
@@ -52,24 +53,36 @@ body {
 	color: var(--main-font-color);
 }
 
-.modal {
+.modal-container {
 	position: absolute;
 	width: 100%;
 	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	background-color: rgba(0, 0, 0, 0.7);
 	transform: center;
 }
 
-.modal.hidden {
+.modal-container.hidden {
 	visibility: hidden;
 	opacity: 0;
 	transform: scale(0);
 }
 
-.modal.visible {
+.modal-container.visible {
 	visibility: visible;
 	opacity: 1;
 	transform: scale(1);
+}
+
+.modal {
+	width: 100%;
+	max-width: 350px;
+	height: 100%;
+	max-height: 250px;
+	background-color: var(--white);
+	border-radius: 10px;
 }
 
 /* ---- initial view styles ----- start ---- */
