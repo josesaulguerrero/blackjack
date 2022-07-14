@@ -117,7 +117,8 @@ body {
 	font-size: 1.4rem;
 }
 
-.score {
+.player-score,
+.dealer-score {
 	width: 100%;
 	display: block;
 	text-align: center;

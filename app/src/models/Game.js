@@ -43,7 +43,6 @@ export class Game {
 	 * @description Handles the different game states.
 	 */
 	#handleGameState() {
-		debugger;
 		switch (this.#gameState) {
 			case "NOT_STARTED":
 				return this.#ui.renderInitialView(() => {
@@ -53,9 +52,7 @@ export class Game {
 			case "PLAYING":
 				return this.#ui.renderGameView(
 					() => {},
-					() => {
-						this.#end();
-					}
+					() => {}
 				);
 			case "FINISHED":
 				return this.#ui.renderFinalView(() => {
@@ -75,7 +72,13 @@ export class Game {
 	/**
 	 * @return {void}
 	 */
-	#gameplay() {}
+	#gameplay() {
+		this.#ui.renderCards(
+			"player",
+			this.#deck.dealCard(),
+			this.#deck.dealCard()
+		);
+	}
 
 	/**
 	 * @return {void}
@@ -92,7 +95,6 @@ export class Game {
 	 */
 	set gameState(value) {
 		this.#gameState = value;
-		console.log(this.#gameState);
 		this.#handleGameState();
 	}
 }

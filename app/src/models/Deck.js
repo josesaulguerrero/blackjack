@@ -1,3 +1,5 @@
+// @ts-check
+
 import { NumberUtils } from "../utils/NumberUtils.js";
 import { Card } from "./Card.js";
 import { Suite } from "./Suite.js";
@@ -11,9 +13,6 @@ export class Deck {
 	 */
 	#cards;
 
-	/**
-	 * @return {Deck} The just created deck.
-	 */
 	constructor() {
 		this.#cards = this.#initializeCards();
 	}
@@ -95,7 +94,9 @@ export class Deck {
 	 * @description Deals one available card.
 	 * @return {Card} A non-drawn card from the deck.
 	 */
-	dealCard() {}
+	dealCard() {
+		return this.#pickRandomCard();
+	}
 
 	/**
 	 * @description Resets the attributes of the class when needed.

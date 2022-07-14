@@ -1,5 +1,7 @@
 // @ts-check
 
+import { Card } from "./Card.js";
+
 /**
  * @classdesc A class that contains some abstraction to interact with the DOM.
  * @class
@@ -59,20 +61,13 @@ export class UI {
 				<section class="stats">
 				<section class="player">
 					<h3 class="player-title">Player</h3>
-					<article class="dealtCards">
-						<span class="card">3 of Clubs</span>
-						<span class="card">5 of Clubs</span>
-						<span class="card">10 of Clubs</span>
-					</article>
-					<span class="score">18</span>
+					<article class="player-table"></article>
+					<span class="player-score">0</span>
 				</section>
 				<section class="dealer">
 					<h3 class="player-title">Dealer</h3>
-					<article class="dealtCards">
-						<span class="card">Ace of Clubs</span>
-						<span class="card">K of Clubs</span>
-					</article>
-					<span class="score">21</span>
+					<article class="dealer-table"></article>
+					<span class="dealer-score">0</span>
 				</section>
 			</section>
 			<section class="buttons" id="buttons" >
@@ -83,6 +78,39 @@ export class UI {
 		`;
 		this.#addEventListener("#hit-button", "click", onHit);
 		this.#addEventListener("#stand-button", "click", onStand);
+	}
+
+	/**
+	 * @param {"player" | "dealer"} table The table in which you want to render the cards.
+	 * @param {Card[]} cards The cards necessary to calculate the score.
+	 */
+	#renderScore(table, ...cards) {
+		const scoreNode = this.#rootElement.querySelector(
+			`${table === "player" ? ".player" : ".dealer"}-score`
+		);
+		const score = cards.reduce((acc, card) => {
+			const result = acc + card.value;
+			console.log(card);
+			console.log(result);
+			return result;
+		}, 0);
+		scoreNode.innerHTML = String(score);
+	}
+
+	/**
+	 * @param {"player" | "dealer"} table The table in which you want to render the cards.
+	 * @param  {Card[]} cards Tne card(s) you want to render on the corresponding table.
+	 */
+	renderCards(table, ...cards) {
+		console.log(cards);
+		const tableNode = this.#rootElement.querySelector(
+			table === "player" ? ".player-table" : ".dealer-table"
+		);
+		const stringifiedCards = cards
+			.map((card) => `<span class="card">${card.toString()}</span>`)
+			.join("\n");
+		tableNode.innerHTML = stringifiedCards;
+		this.#renderScore(table, ...cards);
 	}
 
 	/**

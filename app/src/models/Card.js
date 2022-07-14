@@ -44,6 +44,10 @@ export class Card {
 		return this.#name === "Ace";
 	}
 
+	toString() {
+		return `${this.#name} ${this.#suite.name}`;
+	}
+
 	/**
 	 * @description Returns the Suite of this card.
 	 * @returns {Suite}
