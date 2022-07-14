@@ -6,6 +6,13 @@ export class Player {
 		this.#dealtCards = [];
 	}
 
+	/**
+	 * @return {boolean} A boolean indicating whether the player score is over 21.
+	 */
+	hasBusted() {
+		return this.#score > 21;
+	}
+
 	stand() {}
 
 	hit() {}
