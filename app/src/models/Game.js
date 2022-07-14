@@ -13,10 +13,6 @@ class Game {
 		this.#dealer = new Player();
 	}
 
-	#sumDealtCards() {
-		return this.#deck.dealtCards.reduce((acc, card) => card.value + acc, 0);
-	}
-
 	#isVictory() {}
 
 	#isGameOver() {}
