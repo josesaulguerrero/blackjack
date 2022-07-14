@@ -35,7 +35,8 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-start;
+	padding: 60px 20px;
 	background-color: rgba(255, 255, 255, 0.79);
 	border-radius: 10px;
 	box-shadow: 4px 4px 40px var(--shadow-color);
@@ -45,3 +46,26 @@ body {
 	font-size: 2.5rem;
 	color: var(--normal-font-color);
 }
+
+.main-image {
+	width: 250px;
+	margin: 30px 0 40px;
+}
+
+.startGame-button {
+	padding: 15px 10px;
+	border: none;
+	outline: none;
+	font-weight: bold;
+	font-size: 2rem;
+	background-color: rgb(193, 129, 243);
+	border-radius: 5px;
+	transition: transform 0.15s;
+}
+
+@media (hover: hover) {
+	.startGame-button:hover {
+		transform: scale(1.05);
+		cursor: pointer;
+	}
+} ;

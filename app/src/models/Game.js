@@ -1,6 +1,5 @@
 // @ts-check
 
-import { NumberUtils } from "../utils/NumberUtils.js";
 import { Dealer } from "./Dealer.js";
 import { Deck } from "./Deck.js";
 import { User } from "./User.js";
