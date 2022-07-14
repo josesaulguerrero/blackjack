@@ -8,6 +8,7 @@ const main = () => {
 	const ui = new UI();
 	// render initial view
 	ui.renderInitialView();
+	//ui.renderGameView();
 	// start game
 	game.start();
 };
