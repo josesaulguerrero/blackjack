@@ -40,11 +40,32 @@ export class Game {
 	}
 
 	#getVictoryMessage() {
-		let message =
-			this.#user.score > this.#dealer.score &&
-			(!this.#user.hasBusted() || !this.#dealer.hasBusted())
+		let message;
+
+		console.log(this.#user.score, this.#dealer.score);
+		// someone won with a higher score without busting
+		if (
+			(this.#user.score > this.#dealer.score ||
+				this.#dealer.score > this.#user.score) &&
+			!this.#user.hasBusted() &&
+			!this.#dealer.hasBusted()
+		) {
+			const winner = this.#user.score > this.#dealer.score;
+			message = winner
 				? "You've won the dealer!"
 				: "The dealer has won the match...";
+		}
+
+		// it's a push
+		if (
+			this.#dealer.score === this.#user.score &&
+			!this.#user.hasBusted() &&
+			!this.#dealer.hasBusted()
+		) {
+			message = "No one wins.. it's a push! better luck next time!";
+		}
+
+		// someone got a blackjack
 		if (this.#user.isBlackJack() || this.#dealer.isBlackJack()) {
 			const isUserBlackJack = this.#user.isBlackJack();
 			message = `It's a BLACKJACK! ${
@@ -53,6 +74,8 @@ export class Game {
 					: "The dealer has won!"
 			}`;
 		}
+
+		// someone busted
 		if (this.#user.hasBusted() || this.#dealer.hasBusted()) {
 			const userBusted = this.#user.hasBusted();
 			message = userBusted
@@ -60,6 +83,15 @@ export class Game {
 				: "The dealer has gone over 21, you win!!!";
 		}
 		return message;
+	}
+
+	/**
+	 * @description The UI isn't automatically updated in some situations, so this method helps prevent failures.
+	 */
+	#triggerManualUIUpdate() {
+		this.#dealer.isPlaying = true;
+		this.#ui.renderPlayerDealtCards("player", this.#user);
+		this.#ui.renderPlayerDealtCards("dealer", this.#dealer);
 	}
 
 	/**
@@ -80,6 +112,7 @@ export class Game {
 							this.#user.hasBusted() ||
 							this.#user.isBlackJack()
 						) {
+							this.#triggerManualUIUpdate();
 							this.gameState = "FINISHED";
 						}
 					},

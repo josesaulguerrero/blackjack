@@ -210,7 +210,7 @@ export class UI {
 	 */
 	renderFinalView(onGoBackToStart, finalMessage = "") {
 		this.#rootElement.querySelector("#buttons").innerHTML = `
-			<p className="final-message">${finalMessage}</p>
+			<p class="final-message">${finalMessage}</p>
 			<button class="goBackToStart-button" id="goBackToStart">Go back to start</button>
 		`;
 		this.#addEventListener("#goBackToStart", "click", onGoBackToStart);

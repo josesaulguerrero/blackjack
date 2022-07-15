@@ -23,7 +23,7 @@ export class Dealer extends Player {
 	 */
 	async hit() {
 		this.#isPlaying = true;
-		while (this.score < 21) {
+		while (this.score < 16) {
 			await this.deck.dealCard(this);
 		}
 		this.stand();
