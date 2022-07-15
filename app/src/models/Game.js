@@ -41,8 +41,6 @@ export class Game {
 
 	#getVictoryMessage() {
 		let message;
-
-		console.log(this.#user.score, this.#dealer.score);
 		// someone won with a higher score without busting
 		if (
 			(this.#user.score > this.#dealer.score ||
@@ -50,6 +48,7 @@ export class Game {
 			!this.#user.hasBusted() &&
 			!this.#dealer.hasBusted()
 		) {
+			console.log("someone won with a higher score without busting");
 			const winner = this.#user.score > this.#dealer.score;
 			message = winner
 				? "You've won the dealer!"
@@ -88,7 +87,7 @@ export class Game {
 	/**
 	 * @description The UI isn't automatically updated in some situations, so this method helps prevent failures.
 	 */
-	#triggerManualUIUpdate() {
+	#triggerManualUpdate() {
 		this.#dealer.isPlaying = true;
 		this.#ui.renderPlayerDealtCards("player", this.#user);
 		this.#ui.renderPlayerDealtCards("dealer", this.#dealer);
@@ -112,13 +111,14 @@ export class Game {
 							this.#user.hasBusted() ||
 							this.#user.isBlackJack()
 						) {
-							this.#triggerManualUIUpdate();
+							this.#triggerManualUpdate();
 							this.gameState = "FINISHED";
 						}
 					},
-					() => {
+					async () => {
 						this.#user.stand();
-						this.#dealer.hit();
+						await this.#dealer.hit();
+						this.#triggerManualUpdate();
 						this.gameState = "FINISHED";
 					}
 				);
