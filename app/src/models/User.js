@@ -24,7 +24,6 @@ export class User extends Player {
 	 */
 	stand() {
 		this.hasStood = true;
-		this.ui.disableGameButtons();
 	}
 
 	/**

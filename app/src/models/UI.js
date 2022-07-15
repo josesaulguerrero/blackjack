@@ -38,6 +38,15 @@ export class UI {
 	}
 
 	/**
+	 * @param {string} selector
+	 * @param {string} event The event to be removed.
+	 * @param {() => any} listener
+	 */
+	#removeEventListener(selector, event, listener) {
+		document.querySelector(selector)?.removeEventListener(event, listener);
+	}
+
+	/**
 	 * @param {EventListenerOrEventListenerObject} onStart The function to execute once the start button is clicked.
 	 */
 	renderInitialView(onStart) {
@@ -82,11 +91,17 @@ export class UI {
 			</section>
 			</section>
 		`;
+		const onStandInternal = (event) => {
+			this.#disableGameButtons();
+			this.#removeEventListener("#hit-button", "click", onHit);
+			this.#removeEventListener("#hit-button", "click", onStandInternal);
+			onStand(event);
+		};
 		this.#addEventListener("#hit-button", "click", onHit);
-		this.#addEventListener("#stand-button", "click", onStand);
+		this.#addEventListener("#stand-button", "click", onStandInternal);
 	}
 
-	disableGameButtons() {
+	#disableGameButtons() {
 		this.#rootElement.querySelectorAll("#buttons > *").forEach((button) => {
 			button.setAttribute("disabled", "true");
 		});

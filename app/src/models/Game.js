@@ -52,12 +52,9 @@ export class Game {
 			case "PLAYING":
 				return this.#ui.renderGameView(
 					() => {
-						if (!this.#user.hasStood) {
-							console.log(this.#user.hasStood);
-							this.#user.hit();
-							if (this.#user.hasBusted()) {
-								this.gameState = "FINISHED";
-							}
+						this.#user.hit();
+						if (this.#user.hasBusted()) {
+							this.gameState = "FINISHED";
 						}
 					},
 					() => this.#user.stand()
