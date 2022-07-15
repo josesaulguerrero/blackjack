@@ -233,6 +233,8 @@ body {
 
 .buttons {
 	width: 100%;
+	flex: 1;
+	max-height: 120px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -276,6 +278,15 @@ body {
 		transform: none;
 		cursor: not-allowed;
 	}
+}
+
+/* ---- game view styles ----- end ---- */
+
+/* ---- game view styles ----- end ---- */
+
+.final-message {
+	text-align: center;
+	margin-bottom: 30px;
 }
 
 /* ---- game view styles ----- end ---- */
