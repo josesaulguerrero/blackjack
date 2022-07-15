@@ -23,6 +23,11 @@ export class Player {
 	 */
 	#hasStood;
 
+	/**
+	 * @type {boolean} A value indicating whether this player has already gotten an Ace.
+	 */
+	#hasBeenDealtAnAce;
+
 	constructor() {
 		if (new.target === Player) {
 			throw new Error("Abstract classes can't be instantiated.");
@@ -30,6 +35,7 @@ export class Player {
 		this.#score = 0;
 		this.#dealtCards = [];
 		this.#hasStood = false;
+		this.hasBeenDealtAnAce = false;
 	}
 
 	/**
@@ -55,6 +61,15 @@ export class Player {
 	 * @return {void}
 	 */
 	hit() {
+		throw new Error("Abstract method!");
+	}
+
+	/**
+	 * @description The method executed every time a player gets an Ace.
+	 * @abstract
+	 * @return {Promise<number>}
+	 */
+	calculateAceValue() {
 		throw new Error("Abstract method!");
 	}
 
@@ -124,6 +139,13 @@ export class Player {
 	}
 
 	/**
+	 * @Return {boolean} A getter that returns whether the player has already been dealt an Ace or not.
+	 */
+	get hasBeenDealtAnAce() {
+		return this.#hasBeenDealtAnAce;
+	}
+
+	/**
 	 * @description Sets a new value to the property.
 	 * @param {boolean} value The new value you want to assign.
 	 */
@@ -131,5 +153,13 @@ export class Player {
 		if (Player.#isDirectSubclass(this)) {
 			this.#hasStood = value;
 		}
+	}
+
+	/**
+	 * @description Sets a new value to the property.
+	 * @param {boolean} value The new value you want to assign.
+	 */
+	set hasBeenDealtAnAce(value) {
+		this.#hasBeenDealtAnAce = value;
 	}
 }

@@ -101,9 +101,9 @@ export class UI {
 
 	/**
 	 * Renders a modal for the user to choose the value for an Ace; it passes the value through the onDone callback.
-	 * @param {(value: number) => void} onDone The callback that will receive the value chose by the user.
+	 * @return {Promise<number>}
 	 */
-	renderGetAceValueModal(onDone) {
+	renderGetAceValueModal() {
 		const modalContent = `
 			<section class="getAce-container">
 				<h3 class="title">You've got an Ace! pick a value for it.</h3>
@@ -123,14 +123,20 @@ export class UI {
 			</section>
 		`;
 		this.#renderModalContent(modalContent);
-		this.#addEventListener("#submit", "click", (event) => {
-			event.preventDefault();
-			const radioNodes = [
-				...this.#modalElement.querySelectorAll(".radio[type='radio']"),
-			];
-			const selectedValue = radioNodes.find((node) => node.checked).value;
-			onDone(parseInt(selectedValue));
-			this.#hideModalContent();
+		return new Promise((resolve) => {
+			this.#addEventListener("#submit", "click", (event) => {
+				event.preventDefault();
+				const radioNodes = [
+					...this.#modalElement.querySelectorAll(
+						".radio[type='radio']"
+					),
+				];
+				const selectedValue = radioNodes.find(
+					(node) => node.checked
+				).value;
+				this.#hideModalContent();
+				resolve(parseInt(selectedValue));
+			});
 		});
 	}
 
@@ -142,12 +148,7 @@ export class UI {
 		const scoreNode = this.#rootElement.querySelector(
 			`${table === "player" ? ".player" : ".dealer"}-score`
 		);
-		const score = cards.reduce((acc, card) => {
-			const result = acc + card.value;
-			console.log(card);
-			console.log(result);
-			return result;
-		}, 0);
+		const score = cards.reduce((acc, card) => acc + card.value, 0);
 		scoreNode.innerHTML = String(score);
 	}
 

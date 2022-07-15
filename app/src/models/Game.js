@@ -45,9 +45,9 @@ export class Game {
 	#handleGameState() {
 		switch (this.#gameState) {
 			case "NOT_STARTED":
-				return this.#ui.renderInitialView(() => {
+				return this.#ui.renderInitialView(async () => {
 					this.gameState = "PLAYING";
-					this.#gameplay();
+					await this.#gameplay();
 				});
 			case "PLAYING":
 				return this.#ui.renderGameView(
@@ -63,21 +63,25 @@ export class Game {
 
 	/**
 	 * @description Starts a new game.
-	 * @return {void}
+	 * @return {Promise<void>}
 	 */
-	start() {
+	async start() {
 		this.#setUpInitialAttributes();
 	}
 
 	/**
-	 * @return {void}
+	 * @return {Promise<void>}
 	 */
-	#gameplay() {
-		this.#ui.renderCards(
-			"player",
-			this.#deck.dealCard(),
-			this.#deck.dealCard()
-		);
+	async #gameplay() {
+		await this.#deck.dealInitialCards(this.#user);
+		this.#ui.renderCards("player", ...this.#user.dealtCards);
+		await this.#deck.dealInitialCards(this.#dealer);
+		this.#ui.renderCards("dealer", ...this.#dealer.dealtCards);
+		// this.#ui.renderCards(
+		// 	"player",
+		// 	this.#deck.dealCard(),
+		// 	this.#deck.dealCard()
+		// );
 	}
 
 	/**

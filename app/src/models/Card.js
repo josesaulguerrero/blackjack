@@ -45,7 +45,7 @@ export class Card {
 	}
 
 	toString() {
-		return `${this.#name} ${this.#suite.name}`;
+		return `${this.#name} ${this.#suite.name} - ${this.#value}`;
 	}
 
 	/**
@@ -78,5 +78,13 @@ export class Card {
 	 */
 	get isDrawn() {
 		return this.#isDrawn;
+	}
+
+	/**
+	 * @description Reassigns the value of this card.
+	 * @param {number} value The new value to be assigned.
+	 */
+	set value(value) {
+		this.#value = value;
 	}
 }

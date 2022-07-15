@@ -2,7 +2,9 @@
 
 import { NumberUtils } from "../utils/NumberUtils.js";
 import { Card } from "./Card.js";
+import { Player } from "./Player.js";
 import { Suite } from "./Suite.js";
+import { User } from "./User.js";
 
 export class Deck {
 	static SUIT_LENGTH = 13;
@@ -34,7 +36,7 @@ export class Deck {
 			return new Card(
 				suite,
 				cardName,
-				cardName.toLowerCase() === "ace" ? this.#getAceValue() : 10,
+				cardName.toLowerCase() === "ace" ? 11 : 10, // set up default values
 				false
 			);
 		});
@@ -91,11 +93,28 @@ export class Deck {
 	}
 
 	/**
-	 * @description Deals one available card.
-	 * @return {Card} A non-drawn card from the deck.
+	 * @description Deals one available card to the given player.
+	 * @param {Player} player The player you want to deal the card to.
+	 * @return {Promise<void>}
 	 */
-	dealCard() {
-		return this.#pickRandomCard();
+	async dealCard(player) {
+		const card = this.#pickRandomCard();
+		if (card.isAce()) {
+			const aceValue = await player.calculateAceValue();
+			console.log(aceValue, "deck");
+			card.value = aceValue;
+			player.hasBeenDealtAnAce = true;
+		}
+		player.pushDealtCard(card);
+	}
+
+	/**
+	 * @description Deals **two** available cards to the given player.
+	 * @param {Player} player The player you want to deal the card to.
+	 */
+	async dealInitialCards(player) {
+		await this.dealCard(player);
+		await this.dealCard(player);
 	}
 
 	/**

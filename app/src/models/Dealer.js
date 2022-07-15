@@ -21,4 +21,16 @@ export class Dealer extends Player {
 	 * @inheritdoc Player#stand
 	 */
 	stand() {}
+
+	/**
+	 * @inheritdoc Player#calculateAceValue
+	 */
+	calculateAceValue() {
+		return new Promise((resolve) => {
+			if (this.hasBeenDealtAnAce) {
+				return resolve(1);
+			}
+			resolve(11);
+		});
+	}
 }
