@@ -1,6 +1,8 @@
 // @ts-check
 
 import { Card } from "./Card.js";
+import { Dealer } from "./Dealer.js";
+import { Player } from "./Player.js";
 
 /**
  * @classdesc A class that contains some abstraction to interact with the DOM.
@@ -142,30 +144,41 @@ export class UI {
 
 	/**
 	 * @param {"player" | "dealer"} table The table in which you want to render the cards.
-	 * @param {Card[]} cards The cards necessary to calculate the score.
+	 * @param {Player} player The player whose score you want to render.
 	 */
-	#renderScore(table, ...cards) {
+	#renderPlayerScore(table, player) {
 		const scoreNode = this.#rootElement.querySelector(
 			`${table === "player" ? ".player" : ".dealer"}-score`
 		);
-		const score = cards.reduce((acc, card) => acc + card.value, 0);
+		const score = player.dealtCards.reduce(
+			(acc, card, i) =>
+				player.constructor === Dealer && i === 0
+					? acc
+					: acc + card.value,
+			0
+		);
 		scoreNode.innerHTML = String(score);
 	}
 
 	/**
 	 * @param {"player" | "dealer"} table The table in which you want to render the cards.
-	 * @param  {Card[]} cards Tne card(s) you want to render on the corresponding table.
+	 * @param {Player} player Tne card(s) you want to render on the corresponding table.
 	 */
-	renderCards(table, ...cards) {
-		console.log(cards);
+	renderPlayerDealtCards(table, player) {
 		const tableNode = this.#rootElement.querySelector(
 			table === "player" ? ".player-table" : ".dealer-table"
 		);
-		const stringifiedCards = cards
-			.map((card) => `<span class="card">${card.toString()}</span>`)
+		const stringifiedCards = player.dealtCards
+			.map((card, i) => {
+				let content =
+					player.constructor === Dealer && i === 0
+						? "???"
+						: card.toString();
+				return `<span class="card">${content}</span>`;
+			})
 			.join("\n");
 		tableNode.innerHTML = stringifiedCards;
-		this.#renderScore(table, ...cards);
+		this.#renderPlayerScore(table, player);
 	}
 
 	/**

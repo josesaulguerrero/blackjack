@@ -74,9 +74,9 @@ export class Game {
 	 */
 	async #gameplay() {
 		await this.#deck.dealInitialCards(this.#user);
-		this.#ui.renderCards("player", ...this.#user.dealtCards);
+		this.#ui.renderPlayerDealtCards("player", this.#user);
 		await this.#deck.dealInitialCards(this.#dealer);
-		this.#ui.renderCards("dealer", ...this.#dealer.dealtCards);
+		this.#ui.renderPlayerDealtCards("dealer", this.#dealer);
 		// this.#ui.renderCards(
 		// 	"player",
 		// 	this.#deck.dealCard(),

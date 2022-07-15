@@ -45,7 +45,7 @@ export class Card {
 	}
 
 	toString() {
-		return `${this.#name} ${this.#suite.name} - ${this.#value}`;
+		return `${this.#name} of ${this.#suite.name} - ${this.#value}`;
 	}
 
 	/**

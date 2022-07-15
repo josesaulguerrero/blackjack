@@ -8,8 +8,14 @@ import { Player } from "./Player.js";
  * @extends {Player}
  */
 export class Dealer extends Player {
+	/**
+	 * @type {boolean}
+	 */
+	#isPlaying;
+
 	constructor() {
 		super();
+		this.#isPlaying = false;
 	}
 
 	/**
@@ -32,5 +38,19 @@ export class Dealer extends Player {
 			}
 			resolve(11);
 		});
+	}
+
+	/**
+	 * @return {boolean}
+	 */
+	get isPlaying() {
+		return this.#isPlaying;
+	}
+
+	/**
+	 * @param {boolean} value The new value to be set.
+	 */
+	set isPlaying(value) {
+		this.#isPlaying = value;
 	}
 }
