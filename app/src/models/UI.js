@@ -193,12 +193,10 @@ export class UI {
 		tableNode.innerHTML = "";
 		const stringifiedCards = player.dealtCards
 			.map((card, i) => {
-				let content =
-					player.constructor === Dealer &&
-					!player.isPlaying &&
-					i === 0
-						? "???"
-						: card.toString();
+				const isDealerPlaying =
+					player.constructor === Dealer && !player.isPlaying;
+				const content =
+					isDealerPlaying && i === 0 ? "???" : card.toString();
 				return `<span class="card">${content}</span>`;
 			})
 			.join("\n");
