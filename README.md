@@ -1,20 +1,23 @@
-# BlackJack CLI
+# Sofkian BlackJack
 
-BlackJack CLI is a little project to play the famous blackjack through your console! Some rules are modified, but the game is still fun and it helps you relax!
+Sofkian Blackjack is a little implementation of the well-known blackjack game. The purpose of the game is to total higher than the dealer without going over 21. Try your luck and get a blackjack!
+
+You can see this game up and running on: https://josesaulguerrero.github.io/blackjack/app/public
 
 ## How to run
 
--   On your local machine just clone the repository: `git clone https://github.com/josesaulguerrero/blackjack.git`
--   Make sure to have Node installed (node --version >= 16)
--   Run `npm install` to install **inquierer**
--   And you now you can run `npm start` to see it live!
+-   On your local machine just clone the repository: `git clone https://github.com/josesaulguerrero/blackjack.git`.
+-   Switch to the _ui_ branch: `git checkout ui`.
+-   Install [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) extension on your VSCode.
+-   Go to app/public/index.html and open Live Server.
+-   It will open a new tab on your browser and you can see the app taking life!
 
 ## Screenshots
 
-[![Starting the game](https://i.postimg.cc/0yRR3LNH/Screenshot-from-2022-07-12-20-58-18.png)](https://postimg.cc/nCkP9SBv)
+[![Starting the game](https://i.postimg.cc/MKs2wRF9/image.png)](https://postimg.cc/mtF6NcR9)
 
-[![Losing the game](https://i.postimg.cc/qM94rN1w/Screenshot-from-2022-07-12-20-58-51.png)](https://postimg.cc/w7cScj8R)
+[![Losing the game](https://i.postimg.cc/Ss4tCNPX/image.png)](https://postimg.cc/3yLBH7Y7)
 
-[![Deciding whether to hit or stand](https://i.postimg.cc/N0xcRpBC/Screenshot-from-2022-07-12-20-58-44.png)](https://postimg.cc/Y4jZHN4Q)
+[![Deciding whether to hit or stand](https://i.postimg.cc/cJRFxGJd/image.png)](https://postimg.cc/gw0Vs5R7)
 
-[![Hitting and losing](https://i.postimg.cc/fyVQnsX1/Screenshot-from-2022-07-12-20-58-28.png)](https://postimg.cc/5QWRLZsm)
+[![Hitting and losing](https://i.postimg.cc/C5XGCcKv/image.png)](https://postimg.cc/Mf0fqbVR)
