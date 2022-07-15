@@ -260,10 +260,21 @@ body {
 	background-color: #ffc300;
 }
 
+[class$="-button"]:disabled {
+	font-size: 2rem;
+	background-color: gray;
+	transition: none;
+}
+
 @media (hover: hover) {
 	[class$="-button"]:hover {
 		transform: scale(1.05);
 		cursor: pointer;
+	}
+
+	[class$="-button"]:disabled:hover {
+		transform: none;
+		cursor: not-allowed;
 	}
 }
 

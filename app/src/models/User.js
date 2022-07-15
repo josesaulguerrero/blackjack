@@ -22,7 +22,10 @@ export class User extends Player {
 	/**
 	 * @inheritdoc Player#stand
 	 */
-	stand() {}
+	stand() {
+		this.hasStood = true;
+		this.ui.disableGameButtons();
+	}
 
 	/**
 	 * @inheritdoc Player#calculateAceValue

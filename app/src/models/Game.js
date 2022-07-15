@@ -51,7 +51,15 @@ export class Game {
 				});
 			case "PLAYING":
 				return this.#ui.renderGameView(
-					() => this.#user.hit(),
+					() => {
+						if (!this.#user.hasStood) {
+							console.log(this.#user.hasStood);
+							this.#user.hit();
+							if (this.#user.hasBusted()) {
+								this.gameState = "FINISHED";
+							}
+						}
+					},
 					() => this.#user.stand()
 				);
 			case "FINISHED":
@@ -75,6 +83,13 @@ export class Game {
 	async #gameplay() {
 		await this.#deck.dealInitialCards(this.#user);
 		await this.#deck.dealInitialCards(this.#dealer);
+		if (this.#user.hasStood) {
+			this.#dealer.hit();
+		}
+	}
+
+	#userHasLost() {
+		return this.#user.hasBusted() || this.#user.score < this.#dealer.score;
 	}
 
 	/**

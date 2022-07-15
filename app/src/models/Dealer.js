@@ -21,7 +21,10 @@ export class Dealer extends Player {
 	/**
 	 * @inheritdoc Player#hit
 	 */
-	hit() {}
+	hit() {
+		this.#isPlaying = true;
+		console.log("hi");
+	}
 
 	/**
 	 * @inheritdoc Player#stand

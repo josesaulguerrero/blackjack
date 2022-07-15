@@ -60,7 +60,7 @@ export class UI {
 	 * @param {EventListenerOrEventListenerObject} onHit The function to execute once the player decides to hit.
 	 * @param {EventListenerOrEventListenerObject} onStand The function to execute once the player decides to stand.
 	 */
-	renderGameView(onHit, onStand) {
+	renderGameView(onHit = () => {}, onStand = () => {}) {
 		this.#rootElement.innerHTML = `
 			${this.#getTitleHTML()}
 			<section class="gameView">
@@ -84,6 +84,12 @@ export class UI {
 		`;
 		this.#addEventListener("#hit-button", "click", onHit);
 		this.#addEventListener("#stand-button", "click", onStand);
+	}
+
+	disableGameButtons() {
+		this.#rootElement.querySelectorAll("#buttons > *").forEach((button) => {
+			button.setAttribute("disabled", "true");
+		});
 	}
 
 	/**
