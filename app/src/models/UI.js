@@ -91,6 +91,7 @@ export class UI {
 			</section>
 			</section>
 		`;
+
 		const onStandInternal = (event) => {
 			this.#disableGameButtons();
 			this.#removeEventListener("#hit-button", "click", onHit);
@@ -173,7 +174,7 @@ export class UI {
 		);
 		const score = player.dealtCards.reduce(
 			(acc, card, i) =>
-				player.constructor === Dealer && i === 0
+				player.constructor === Dealer && !player.isPlaying && i === 0
 					? acc
 					: acc + card.value,
 			0
@@ -189,10 +190,13 @@ export class UI {
 		const tableNode = this.#rootElement.querySelector(
 			table === "player" ? ".player-table" : ".dealer-table"
 		);
+		tableNode.innerHTML = "";
 		const stringifiedCards = player.dealtCards
 			.map((card, i) => {
 				let content =
-					player.constructor === Dealer && i === 0
+					player.constructor === Dealer &&
+					!player.isPlaying &&
+					i === 0
 						? "???"
 						: card.toString();
 				return `<span class="card">${content}</span>`;
@@ -203,11 +207,12 @@ export class UI {
 	}
 
 	/**
-	 *
 	 * @param {EventListenerOrEventListenerObject} onGoBackToStart The function to execute once the game is finished and the player wants to go back to the start.
+	 * @param {string} [finalMessage=""] A short message you want to display on the final screen.
 	 */
-	renderFinalView(onGoBackToStart) {
+	renderFinalView(onGoBackToStart, finalMessage = "") {
 		this.#rootElement.querySelector("#buttons").innerHTML = `
+			<p className="final-message">${finalMessage}</p>
 			<button class="goBackToStart-button" id="goBackToStart">Go back to start</button>
 		`;
 		this.#addEventListener("#goBackToStart", "click", onGoBackToStart);

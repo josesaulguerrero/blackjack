@@ -21,15 +21,22 @@ export class Dealer extends Player {
 	/**
 	 * @inheritdoc Player#hit
 	 */
-	hit() {
+	async hit() {
 		this.#isPlaying = true;
-		console.log("hi");
+		this.ui.renderPlayerDealtCards("dealer", this);
+		while (this.score < 21) {
+			await this.deck.dealCard(this);
+		}
+		//this.stand();
 	}
 
 	/**
 	 * @inheritdoc Player#stand
 	 */
-	stand() {}
+	stand() {
+		this.hasStood = true;
+		this.#isPlaying = false;
+	}
 
 	/**
 	 * @inheritdoc Player#calculateAceValue
@@ -55,5 +62,10 @@ export class Dealer extends Player {
 	 */
 	set isPlaying(value) {
 		this.#isPlaying = value;
+	}
+
+	resetAttributes() {
+		super.resetAttributes();
+		this.isPlaying = false;
 	}
 }

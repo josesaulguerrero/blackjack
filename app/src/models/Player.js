@@ -96,6 +96,14 @@ export class Player {
 	}
 
 	/**
+	 * Returns a boolean value indicating whether the player has gotten a blackjack.
+	 * @returns {boolean}
+	 */
+	isBlackJack() {
+		return this.#score === 21;
+	}
+
+	/**
 	 * @description Sums the values of the cards dealt to this player (until now) and updates their score.
 	 * @return {void}
 	 */

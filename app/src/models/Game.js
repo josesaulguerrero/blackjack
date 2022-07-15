@@ -39,6 +39,28 @@ export class Game {
 		this.gameState = "NOT_STARTED";
 	}
 
+	#getVictoryMessage() {
+		let message =
+			this.#user.score > this.#dealer.score && !this.#user.hasBusted()
+				? "You've won the dealer!"
+				: "The dealer has won the match...";
+		if (this.#user.isBlackJack() || this.#dealer.isBlackJack()) {
+			const isUserBlackJack = this.#user.isBlackJack();
+			message = `It's a BLACKJACK! ${
+				isUserBlackJack
+					? "You've won the dealer!"
+					: "The dealer has won!"
+			}`;
+		}
+		if (this.#user.hasBusted() || this.#dealer.hasBusted()) {
+			const userBusted = this.#user.hasBusted();
+			message = userBusted
+				? "You've gone over 21 and the dealer wins... Better luck next time!"
+				: "The dealer has gone over 21, you win!!!";
+		}
+		return message;
+	}
+
 	/**
 	 * @description Handles the different game states.
 	 */
@@ -57,12 +79,19 @@ export class Game {
 							this.gameState = "FINISHED";
 						}
 					},
-					() => this.#user.stand()
+					() => {
+						this.#user.stand();
+						this.#dealer.hit();
+						this.gameState = "FINISHED";
+					}
 				);
 			case "FINISHED":
+				const message = this.#getVictoryMessage();
 				return this.#ui.renderFinalView(() => {
 					this.gameState = "NOT_STARTED";
-				});
+					this.#user.resetAttributes();
+					this.#dealer.resetAttributes();
+				}, message);
 		}
 	}
 
@@ -80,13 +109,6 @@ export class Game {
 	async #gameplay() {
 		await this.#deck.dealInitialCards(this.#user);
 		await this.#deck.dealInitialCards(this.#dealer);
-		if (this.#user.hasStood) {
-			this.#dealer.hit();
-		}
-	}
-
-	#userHasLost() {
-		return this.#user.hasBusted() || this.#user.score < this.#dealer.score;
 	}
 
 	/**

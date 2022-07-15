@@ -17,6 +17,9 @@ export class User extends Player {
 	 */
 	async hit() {
 		await this.deck.dealCard(this);
+		if (this.isBlackJack()) {
+			this.stand();
+		}
 	}
 
 	/**
