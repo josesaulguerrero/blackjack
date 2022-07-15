@@ -87,4 +87,11 @@ export class Card {
 	set value(value) {
 		this.#value = value;
 	}
+
+	/**
+	 * @param {boolean} value The new value to be assigned.
+	 */
+	set isDrawn(value) {
+		this.#isDrawn = value;
+	}
 }

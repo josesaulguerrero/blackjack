@@ -91,6 +91,7 @@ export class Deck {
 	 */
 	async dealCard(player) {
 		const card = this.#pickRandomCard();
+		card.isDrawn = true;
 		if (card.isAce()) {
 			card.value = await player.calculateAceValue();
 			player.hasBeenDealtAnAce = true;

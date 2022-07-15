@@ -41,7 +41,8 @@ export class Game {
 
 	#getVictoryMessage() {
 		let message =
-			this.#user.score > this.#dealer.score && !this.#user.hasBusted()
+			this.#user.score > this.#dealer.score &&
+			(!this.#user.hasBusted() || !this.#dealer.hasBusted())
 				? "You've won the dealer!"
 				: "The dealer has won the match...";
 		if (this.#user.isBlackJack() || this.#dealer.isBlackJack()) {
@@ -75,7 +76,10 @@ export class Game {
 				return this.#ui.renderGameView(
 					() => {
 						this.#user.hit();
-						if (this.#user.hasBusted()) {
+						if (
+							this.#user.hasBusted() ||
+							this.#user.isBlackJack()
+						) {
 							this.gameState = "FINISHED";
 						}
 					},
@@ -109,6 +113,10 @@ export class Game {
 	async #gameplay() {
 		await this.#deck.dealInitialCards(this.#user);
 		await this.#deck.dealInitialCards(this.#dealer);
+		if (this.#user.isBlackJack() || this.#dealer.isBlackJack()) {
+			// validate immediate blackjacks
+			this.#gameState = "FINISHED";
+		}
 	}
 
 	/**
