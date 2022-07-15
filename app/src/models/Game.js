@@ -74,14 +74,7 @@ export class Game {
 	 */
 	async #gameplay() {
 		await this.#deck.dealInitialCards(this.#user);
-		this.#ui.renderPlayerDealtCards("player", this.#user);
 		await this.#deck.dealInitialCards(this.#dealer);
-		this.#ui.renderPlayerDealtCards("dealer", this.#dealer);
-		// this.#ui.renderCards(
-		// 	"player",
-		// 	this.#deck.dealCard(),
-		// 	this.#deck.dealCard()
-		// );
 	}
 
 	/**

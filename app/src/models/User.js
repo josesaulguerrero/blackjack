@@ -1,7 +1,6 @@
 // @ts-check
 
 import { Player } from "./Player.js";
-import { UI } from "./UI.js";
 
 /**
  * @classdesc A class representing the User that plays against the Dealer.
@@ -9,14 +8,8 @@ import { UI } from "./UI.js";
  * @extends {Player}
  */
 export class User extends Player {
-	/**
-	 * @type {UI}
-	 */
-	#ui;
-
 	constructor() {
 		super();
-		this.#ui = new UI();
 	}
 
 	/**
@@ -24,7 +17,6 @@ export class User extends Player {
 	 */
 	async hit() {
 		await this.deck.dealCard(this);
-		this.#ui.renderPlayerDealtCards("player", this);
 	}
 
 	/**
@@ -37,7 +29,7 @@ export class User extends Player {
 	 */
 	async calculateAceValue() {
 		if (!this.hasBeenDealtAnAce && this.score + 11 <= 21) {
-			return await this.#ui.renderGetAceValueModal();
+			return await this.ui.renderGetAceValueModal();
 		}
 		return 1;
 	}

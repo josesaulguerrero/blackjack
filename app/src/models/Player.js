@@ -2,6 +2,7 @@
 
 import { Card } from "./Card.js";
 import { deck, Deck } from "./Deck.js";
+import { UI } from "./UI.js";
 
 /**
  * @classdesc Abstract class containing the common methods and attributes for both, the User and the Dealer.
@@ -34,6 +35,11 @@ export class Player {
 	 */
 	#deck;
 
+	/**
+	 * @type {UI}
+	 */
+	#ui;
+
 	constructor() {
 		if (new.target === Player) {
 			throw new Error("Abstract classes can't be instantiated.");
@@ -43,6 +49,7 @@ export class Player {
 		this.#hasStood = false;
 		this.hasBeenDealtAnAce = false;
 		this.#deck = deck;
+		this.#ui = new UI();
 	}
 
 	/**
@@ -101,8 +108,15 @@ export class Player {
 	 * @param {Card} card The card you want to add.
 	 */
 	pushDealtCard(card) {
+		const wasCalledFromDealerSubclass = /^class Dealer .+/.test(
+			this.constructor.toString()
+		);
 		this.#dealtCards.push(card);
 		this.#score = this.#sumDealtCards();
+		this.#ui.renderPlayerDealtCards(
+			wasCalledFromDealerSubclass ? "dealer" : "player",
+			this
+		);
 	}
 
 	/**
@@ -158,6 +172,13 @@ export class Player {
 	 */
 	get deck() {
 		return this.#deck;
+	}
+
+	/**
+	 * @return A getter that returns the UI instance.
+	 */
+	get ui() {
+		return this.#ui;
 	}
 
 	/**
