@@ -181,12 +181,42 @@ body {
 
 .player-title {
 	font-size: 1.8rem;
+	margin: 0 0 10px;
+}
+
+.player-table,
+.dealer-table {
+	width: 100%;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 2px;
+	/* padding: 15px 0; */
+	overflow-y: auto;
+}
+
+/* width */
+[class$="-table"]::-webkit-scrollbar {
+	width: 5px;
+}
+
+/* Track */
+[class$="-table"]::-webkit-scrollbar-track {
+	background-color: rgb(65, 135, 233);
+	border-radius: 5px;
+}
+
+/* Handle */
+[class$="-table"]::-webkit-scrollbar-thumb {
+	background: var(--white);
+	border-radius: 5px;
 }
 
 .card {
 	display: block;
 	width: 100%;
-	margin: 2px 0;
 	text-align: center;
 	font-size: 1.3rem;
 }
