@@ -1,7 +1,7 @@
 // @ts-check
 
 import { Dealer } from "./Dealer.js";
-import { Deck } from "./Deck.js";
+import { deck, Deck } from "./Deck.js";
 import { UI } from "./UI.js";
 import { User } from "./User.js";
 
@@ -32,7 +32,7 @@ export class Game {
 	#gameState;
 
 	#setUpInitialAttributes() {
-		this.#deck = new Deck();
+		this.#deck = deck;
 		this.#user = new User();
 		this.#dealer = new Dealer();
 		this.#ui = new UI();
@@ -51,8 +51,8 @@ export class Game {
 				});
 			case "PLAYING":
 				return this.#ui.renderGameView(
-					() => {},
-					() => {}
+					() => this.#user.hit(),
+					() => this.#user.stand()
 				);
 			case "FINISHED":
 				return this.#ui.renderFinalView(() => {

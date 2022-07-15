@@ -1,6 +1,7 @@
 // @ts-check
 
 import { Card } from "./Card.js";
+import { deck, Deck } from "./Deck.js";
 
 /**
  * @classdesc Abstract class containing the common methods and attributes for both, the User and the Dealer.
@@ -28,6 +29,11 @@ export class Player {
 	 */
 	#hasBeenDealtAnAce;
 
+	/**
+	 * @type {Deck} The deck used to draw cards from.
+	 */
+	#deck;
+
 	constructor() {
 		if (new.target === Player) {
 			throw new Error("Abstract classes can't be instantiated.");
@@ -36,6 +42,7 @@ export class Player {
 		this.#dealtCards = [];
 		this.#hasStood = false;
 		this.hasBeenDealtAnAce = false;
+		this.#deck = deck;
 	}
 
 	/**
@@ -95,6 +102,7 @@ export class Player {
 	 */
 	pushDealtCard(card) {
 		this.#dealtCards.push(card);
+		this.#score = this.#sumDealtCards();
 	}
 
 	/**
@@ -139,10 +147,17 @@ export class Player {
 	}
 
 	/**
-	 * @Return {boolean} A getter that returns whether the player has already been dealt an Ace or not.
+	 * @return {boolean} A getter that returns whether the player has already been dealt an Ace or not.
 	 */
 	get hasBeenDealtAnAce() {
 		return this.#hasBeenDealtAnAce;
+	}
+
+	/**
+	 * @return A getter that returns the deck associated with the game.
+	 */
+	get deck() {
+		return this.#deck;
 	}
 
 	/**

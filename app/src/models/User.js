@@ -22,7 +22,10 @@ export class User extends Player {
 	/**
 	 * @inheritdoc Player#hit
 	 */
-	hit() {}
+	async hit() {
+		await this.deck.dealCard(this);
+		this.#ui.renderPlayerDealtCards("player", this);
+	}
 
 	/**
 	 * @inheritdoc Player#stand
@@ -33,8 +36,7 @@ export class User extends Player {
 	 * @inheritdoc Player#calculateAceValue
 	 */
 	async calculateAceValue() {
-		console.log(this.hasBeenDealtAnAce);
-		if (!this.hasBeenDealtAnAce) {
+		if (!this.hasBeenDealtAnAce && this.score + 11 <= 21) {
 			return await this.#ui.renderGetAceValueModal();
 		}
 		return 1;

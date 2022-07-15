@@ -4,8 +4,6 @@ import { NumberUtils } from "../utils/NumberUtils.js";
 import { Card } from "./Card.js";
 import { Player } from "./Player.js";
 import { Suite } from "./Suite.js";
-import { User } from "./User.js";
-
 export class Deck {
 	static SUIT_LENGTH = 13;
 	static DECK_LENGTH = Deck.SUIT_LENGTH * 4;
@@ -18,12 +16,6 @@ export class Deck {
 	constructor() {
 		this.#cards = this.#initializeCards();
 	}
-
-	/**
-	 * @description Displays a modal on screen every time the player gets an Ace.
-	 * @return {number} The value  for the Ace chosen by the player.
-	 */
-	#getAceValue() {}
 
 	/**
 	 * @param {Suite} suite The suite you want to set up.
@@ -100,9 +92,7 @@ export class Deck {
 	async dealCard(player) {
 		const card = this.#pickRandomCard();
 		if (card.isAce()) {
-			const aceValue = await player.calculateAceValue();
-			console.log(aceValue, "deck");
-			card.value = aceValue;
+			card.value = await player.calculateAceValue();
 			player.hasBeenDealtAnAce = true;
 		}
 		player.pushDealtCard(card);
@@ -133,3 +123,5 @@ export class Deck {
 		return this.#cards;
 	}
 }
+
+export const deck = Object.freeze(new Deck());
