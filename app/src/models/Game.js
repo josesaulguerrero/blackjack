@@ -39,14 +39,17 @@ export class Game {
 		this.gameState = "NOT_STARTED";
 	}
 
+	#noOneHasBusted() {
+		return !this.#user.hasBusted() && !this.#dealer.hasBusted();
+	}
+
 	#getVictoryMessage() {
 		let message;
 		// someone won with a higher score without busting
 		if (
+			this.#noOneHasBusted() &&
 			(this.#user.score > this.#dealer.score ||
-				this.#dealer.score > this.#user.score) &&
-			!this.#user.hasBusted() &&
-			!this.#dealer.hasBusted()
+				this.#dealer.score > this.#user.score)
 		) {
 			console.log("someone won with a higher score without busting");
 			const winner = this.#user.score > this.#dealer.score;
@@ -56,11 +59,7 @@ export class Game {
 		}
 
 		// it's a push
-		if (
-			this.#dealer.score === this.#user.score &&
-			!this.#user.hasBusted() &&
-			!this.#dealer.hasBusted()
-		) {
+		if (this.#noOneHasBusted() && this.#dealer.score === this.#user.score) {
 			message = "No one wins.. it's a push! better luck next time!";
 		}
 
